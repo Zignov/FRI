@@ -31,9 +31,30 @@ povezave = [
     (21, 10, 21, 19),
 ]
 
+def pravilna(povezava):
+    if (povezava[0] == povezava[2]):
+        if(povezava[1] != povezava[3]):
+            return True
+    elif (povezava[1] == povezava[3]):
+        if(povezava[0] != povezava[2]):
+            return True
+    else: return False
+    
+def pravilne(povezave):
+    rez = True
+    for x in povezave:
+        if pravilna(x) != True:
+            rez = False
+    return rez
 
-
-
+def urejena(povezava):
+    
+    if (povezava[0], povezava[1]) <= (povezava[2], povezava[3]):
+        return(povezava[0], povezava[1], povezava[2], povezava[3])
+    else:
+        return (povezava[2], povezava[3], povezava[0], povezava[1])
+    
+    
 
 class TestOneLineMixin:
     functions = {
