@@ -54,7 +54,32 @@ def urejena(povezava):
     else:
         return (povezava[2], povezava[3], povezava[0], povezava[1])
     
+def na_povezavi(x, y, povezava):
+    povezava = urejena(povezava)
+    if (povezava[0]<=x<=povezava[2]) and (povezava[1]<=y<=povezava[3]):
+        return True
+    return False
+
+def povezave_tocke(x, y, povezave):
+    rez = set()
+    for povezava in povezave:
+        if na_povezavi(x, y, urejena(povezava)):
+            rez.add(urejena(povezava))
+    return rez
+
+            
+def secisce(povezava1, povezava2):
+    rez = set()
+    povezava1 = urejena(povezava1)
+    povezava2 = urejena(povezava2)
     
+    x1, y1, x2, y2 = povezava1
+    x3, y3, x4, y4 = povezava2
+    
+    if 
+    
+    
+            
 
 class TestOneLineMixin:
     functions = {
