@@ -67,17 +67,21 @@ def povezave_tocke(x, y, povezave):
             rez.add(urejena(povezava))
     return rez
 
-            
+from collections import Counter            
+
 def secisce(povezava1, povezava2):
-    rez = set()
-    povezava1 = urejena(povezava1)
-    povezava2 = urejena(povezava2)
+    x1, y1, x2, y2 = urejena(povezava1)
+    x3, y3, x4, y4 = urejena(povezava2)
     
-    x1, y1, x2, y2 = povezava1
-    x3, y3, x4, y4 = povezava2
+    if x1 == x2 and y3 == y4:
+        if x3<=x1<=x4 and y1<=y3<=y2:
+            return(x1, y3)
+
+    elif y1 == y2 and x3 == x4:
+        if y3<=y1<=y4 and x1<=x3<=x2:
+            return(x3, y1)
     
-    if 
-    
+    return None
     
             
 
