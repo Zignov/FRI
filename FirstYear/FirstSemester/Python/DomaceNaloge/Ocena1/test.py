@@ -83,6 +83,24 @@ def secisce(povezava1, povezava2):
     
     return None
     
+def krizisca(povezave):
+    resitev = {}
+    for x in povezave:
+        for y in povezave:
+            if x!=y:
+                add = secisce((x), (y))
+                if add:
+                    resitev[tuple(sorted((urejena(x),urejena(y))))] = add
+                
+    return resitev
+
+from itertools import pairwise
+
+def mozna_pot(pot, mreza):
+    return all(x for pairwise(pot) in mreza)    
+    #for x,y in pairwise(pot):
+        
+            
             
 
 class TestOneLineMixin:
