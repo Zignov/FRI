@@ -97,11 +97,38 @@ def krizisca(povezave):
 from itertools import pairwise
 
 def mozna_pot(pot, mreza):
-    return all(x for pairwise(pot) in mreza)    
-    #for x,y in pairwise(pot):
+    '''rez = True
+    #print(list(pairwise(pot)))
+
+    for x,y in pairwise(pot):
+        #print((urejena(x),urejena(y)))
+        #print(((urejena(x),urejena(y))) not in mreza or ((urejena(y),urejena(x))) not in mreza)
+        if ((urejena(x),urejena(y))) not in mreza and ((urejena(y), urejena(x)) not in mreza):
+            rez = False
+    return rez'''
+
+    return all((urejena(x), urejena(y)) in mreza or (urejena(y), urejena(x)) in mreza for x,y in pairwise(pot))
+
+
+def razdalja(pot, mreza):
+    if (pot[0], pot[1]) in mreza:
+        zacetek = mreza[(pot[0], pot[1])]   
+    else:
+        zacetek = mreza[(pot[1], pot[0])]
         
+    for x,y in pot(pairwise):
+        a = (urejena(x), urejena(y))
+        b = (urejena(y), urejena(x))
+        if (a) in mreza:
+            tocka1 = abs(tocka1 - )     #sestejes v oklepaju odstejs oklepaja abs
+        elif (b) in mreza:
+            razdalja = mreza 
             
             
+
+
+
+
 
 class TestOneLineMixin:
     functions = {
