@@ -110,23 +110,21 @@ def mozna_pot(pot, mreza):
     return all((urejena(x), urejena(y)) in mreza or (urejena(y), urejena(x)) in mreza for x,y in pairwise(pot))
 
 
-def razdalja(pot, mreza):
-    if (pot[0], pot[1]) in mreza:
-        zacetek = mreza[(pot[0], pot[1])]   
-    else:
-        zacetek = mreza[(pot[1], pot[0])]
-        
-    for x,y in pot(pairwise):
-        a = (urejena(x), urejena(y))
-        b = (urejena(y), urejena(x))
-        if (a) in mreza:
-            tocka1 = abs(tocka1 - )     #sestejes v oklepaju odstejs oklepaja abs
-        elif (b) in mreza:
-            razdalja = mreza 
-            
-            
-
-
+def razdalja(pot, mreza): 
+    razdalja_skupna = 0
+    presecisce_prejsnje = None
+    for x in range(len(pot)-1):
+        povezava1 = urejena(pot[x])
+        povezava2 = urejena(pot[x + 1])
+        if (povezava1, povezava2) in mreza or (povezava2, povezava1) in mreza:
+            presecisce = secisce(povezava1, povezava2)
+            if presecisce:
+                if presecisce_prejsnje:
+                    x1, y1 = presecisce
+                    x2, y2 = presecisce_prejsnje
+                    razdalja_skupna += abs(x1- x2) + abs(y1 - y2)
+                presecisce_prejsnje = presecisce
+    return razdalja_skupna
 
 
 
