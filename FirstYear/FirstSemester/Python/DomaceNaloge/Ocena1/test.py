@@ -31,41 +31,55 @@ povezave = [
     (21, 10, 21, 19),
 ]
 
-def pravilna(povezava):
-    if (povezava[0] == povezava[2]):
+
+'''if (povezava[0] == povezava[2]):
         if(povezava[1] != povezava[3]):
             return True
     elif (povezava[1] == povezava[3]):
         if(povezava[0] != povezava[2]):
             return True
-    else: return False
+    else: return False'''
     
-def pravilne(povezave):
-    rez = True
+def pravilna(povezava): return True if ((povezava[0] == povezava[2]) and (povezava[1] != povezava[3])) or (povezava[1] == povezava[3] and (povezava[0] != povezava[2])) else False
+    
+
+'''rez = True
     for x in povezave:
         if pravilna(x) != True:
             rez = False
-    return rez
-
-def urejena(povezava):
+    return rez'''
     
-    if (povezava[0], povezava[1]) <= (povezava[2], povezava[3]):
+def pravilne(povezave): return all(pravilna(x) for x in povezave)
+
+
+    
+'''if (povezava[0], povezava[1]) <= (povezava[2], povezava[3]):
         return(povezava[0], povezava[1], povezava[2], povezava[3])
     else:
-        return (povezava[2], povezava[3], povezava[0], povezava[1])
+        return (povezava[2], povezava[3], povezava[0], povezava[1])'''
+        
+
+def urejena(povezava): return (povezava[0], povezava[1], povezava[2], povezava[3]) if (povezava[0], povezava[1]) <= (povezava[2], povezava[3]) else (povezava[2], povezava[3], povezava[0], povezava[1])
     
-def na_povezavi(x, y, povezava):
-    povezava = urejena(povezava)
+
+'''povezava = urejena(povezava)
     if (povezava[0]<=x<=povezava[2]) and (povezava[1]<=y<=povezava[3]):
         return True
-    return False
+    return False'''
+    
 
-def povezave_tocke(x, y, povezave):
-    rez = set()
+def na_povezavi(x, y, povezava): return True if (urejena(povezava)[0]<=x<=urejena(povezava)[2]) and (urejena(povezava)[1]<=y<=urejena(povezava)[3]) else False
+
+
+'''rez = set()
     for povezava in povezave:
         if na_povezavi(x, y, urejena(povezava)):
             rez.add(urejena(povezava))
-    return rez
+    return rez'''
+    
+
+def povezave_tocke(x, y, povezave): return {urejena(povezava) for povezava in povezave if na_povezavi(x, y, urejena(povezava))}
+
 
 from collections import Counter            
 
