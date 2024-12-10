@@ -82,6 +82,8 @@ def secisce(povezava1, povezava2):
             return(x3, y1)
     
     return None
+
+
     
             
 
