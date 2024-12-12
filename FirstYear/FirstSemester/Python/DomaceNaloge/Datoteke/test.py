@@ -6,27 +6,6 @@ from random import randint
 from datetime import datetime
 import unittest
 
-'''def zapisi_ovire(ime_datoteke, ovire):
-    izpis = open(ime_datoteke, "w")
-    podatki = open("ovire.txt", "r")
-    seznam = []
-    for line in podatki.readlines():
-        if line != "\n":
-            seznam.append(line.strip("\n"))
-        else:
-            izpis.write(f"{seznam[0]:>03}:")
-            for x in zip(seznam[1::2], seznam[2::2]):
-                izpis.write(f"{x[0]:>4}-{x[1]:<4}")
-            
-
-            izpis.write("\n")
-
-            seznam = []
-            
-    if seznam:
-        izpis.write(f"{seznam[0]:>03}:")
-        for x in zip(seznam[1::2], seznam[2::2]):
-            izpis.write(f"{x[0]:>4}-{x[1]:<4}")'''
             
             
 def zapisi_ovire(ime_datoteke, ovire):
