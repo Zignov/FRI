@@ -2,6 +2,26 @@
 
 from itertools import pairwise
 
+
+def hitrejsa(prva, druga, razmerja):
+    if druga in razmerja[prva]:
+        return True
+    elif prva in razmerja[druga]:
+        return False
+    else:
+        return any(hitrejsa(x, druga, razmerja) for x in razmerja[prva])
+    
+def skalpi(kolesarka, razmerja):
+    rezultat = set(razmerja[kolesarka])
+    rezultat.add(kolesarka)
+    
+    for x in razmerja[kolesarka]:
+        rezultat |= (skalpi(x, razmerja))
+      
+    #print("rezultat je:" , rezultat)
+  
+    return rezultat    
+
 razmerja = {'Ana': {'Vera', 'Cilka'},
             'Berta': {'Greta', 'Klara', 'Iva', 'Cilka'},
             'Cilka': {'Olga'},
