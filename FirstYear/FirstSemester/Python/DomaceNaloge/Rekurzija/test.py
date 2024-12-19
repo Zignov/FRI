@@ -19,8 +19,24 @@ def skalpi(kolesarka, razmerja):
         rezultat |= (skalpi(x, razmerja))
       
     #print("rezultat je:" , rezultat)
-  
     return rezultat    
+
+
+def izlocanje(kandidatke, razmerja):
+    odgovor = set()
+    for x in kandidatke:
+        premagane = skalpi(x, razmerja)
+        je_premagana = False
+        
+        for premagan in kandidatke:
+            if premagan != x and hitrejsa(premagan, x, razmerja):
+                je_premagana = True
+                break
+            
+        if not je_premagana:
+            odgovor.add(x)
+        
+    return odgovor
 
 razmerja = {'Ana': {'Vera', 'Cilka'},
             'Berta': {'Greta', 'Klara', 'Iva', 'Cilka'},
