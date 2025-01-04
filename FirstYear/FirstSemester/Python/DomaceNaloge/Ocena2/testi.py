@@ -38,21 +38,38 @@ def preberi_dnevnik(ime_datoteke):
 
 
 def strni(dnevnik):
-    # Use a dictionary to dynamically store actions for each proposal
     rezultat = {}
 
     for zapis in dnevnik:
         cas, stevilka, akcija, kdo, rezultat_zapisa = zapis
         if stevilka not in rezultat:
-            rezultat[stevilka] = []  # Start a new list for this proposal
-        # Add the action details to the list
+            rezultat[stevilka] = [] 
+            
         rezultat[stevilka].append((cas, akcija, kdo, rezultat_zapisa))
 
-    # Create a list where the first element is None (since proposal 0 doesn't exist)
     max_pobuda = max(rezultat.keys(), default=0)
-    rezultat_list = [None] + [rezultat.get(i) for i in range(1, max_pobuda + 1)]
-
+    rezultat_list = [None] * (max_pobuda + 1)
+    
+    for stevilka, akcije in rezultat.items():
+        rezultat_list[stevilka] = akcije
+        
     return rezultat_list
+
+
+def casi(dnevnik):
+    rezultat = {}
+
+    for zapis in dnevnik:
+        cas, stevilka, akcija, kdo, rezultat_zapisa = zapis
+        if stevilka not in rezultat:
+            rezultat[stevilka] = [] 
+        
+        rezultat[stevilka].append(cas)
+        
+    for stevilka, cas in rezultat.items():
+        rezultat[stevilka] = max(cas) - min(cas)
+        
+    return rezultat
 
 class Test(unittest.TestCase):
     def setUp(self):
