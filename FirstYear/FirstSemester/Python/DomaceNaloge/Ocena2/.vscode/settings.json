@@ -1,0 +1,26 @@
+{
+    "type": "setting",
+    "settings": {
+        // Enable unittest
+        "python.testing.unittestEnabled": true,
+
+        // (Optional) Disable other frameworks in case they're enabled
+        "python.testing.pytestEnabled": false,
+        "python.testing.nosetestsEnabled": false,
+
+        // Configure unittest discovery
+        "python.testing.unittestArgs": [
+            // Verbose output
+            "-v",
+            // The folder to start discovering tests (dot '.' means current folder)
+            "-s",
+            ".",
+            // The pattern to match test files
+            "-p",
+            "test.py"
+        ],
+
+        // (Optional) Turn on auto test discovery
+        "python.testing.autoTestDiscoverOnSaveEnabled": true
+    }
+}
