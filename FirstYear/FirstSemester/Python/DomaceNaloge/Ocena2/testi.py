@@ -71,6 +71,35 @@ def casi(dnevnik):
         
     return rezultat
 
+
+def hitro(dnevnik, meja):
+    sum = 0
+    for cas in casi(dnevnik).values():
+        if cas <= meja:
+            sum += 1
+    return sum
+
+
+def najtezji_primer(dnevnik):
+    #print(casi(dnevnik))
+    trenutna = 0
+    rezultat = 0
+    for stvar in casi(dnevnik).items():
+        if stvar[1] > trenutna:
+            trenutna = stvar[1]
+            rezultat = stvar[0]
+    return rezultat
+
+
+def podrejeni(dnevnik):
+    rezultat = {}
+    for _, _, akcija, kdo, rezultat_zapisa in dnevnik:
+        if akcija == "prepusti":
+            if kdo not in rezultat:
+                rezultat[kdo] = set()
+            rezultat[kdo].add(rezultat_zapisa)
+    return rezultat
+
 class Test(unittest.TestCase):
     def setUp(self):
         warnings.filterwarnings("ignore", category=ResourceWarning)
