@@ -5,10 +5,10 @@ class Kolesar:
         self.vrstica = vrstica
         self.stolpec = stolpec
         self.zemljevid = zemljevid
-        self.je_ziv = True
+        self.trdozivost = 1
         self.kilometrina = 0
         self.polja = {(self.vrstica, self.stolpec)}
-        #self.pot_cela = []
+        self.pot_cela = []
         
     def lokacija(self):
         #print(f"vrstica: {self.vrstica}, stolpec: {self.stolpec}")
@@ -16,53 +16,49 @@ class Kolesar:
         
 
     def premik(self, smer):
-        if self.je_ziv == True:
-            self.kilometrina += 1
+        if self.trdozivost >= 1:
             if smer == ">":
                 #print("Desno")
                 nova_pozicija = (self.vrstica, self.stolpec+1)
                 if nova_pozicija not in self.zemljevid:
                     self.stolpec += 1
+                    self.kilometrina += 1
+                    self.polja.add(self.lokacija())
+                    self.pot_cela.append(smer)
                 else:
-                    self.je_ziv = False
+                    self.trdozivost -= 1
                     
             if smer == "<":
                 #print("Levo")
                 nova_pozicija = (self.vrstica, self.stolpec-1)
                 if nova_pozicija not in self.zemljevid:
                     self.stolpec -= 1
+                    self.kilometrina += 1
+                    self.polja.add(self.lokacija())
+                    self.pot_cela.append(smer)
                 else:
-                    self.je_ziv = False
-                    
+                    self.trdozivost -= 1                    
             if smer == "v":
                 #print("Dol")
                 nova_pozicija = (self.vrstica+1, self.stolpec)
                 if nova_pozicija not in self.zemljevid:
                     self.vrstica += 1
+                    self.kilometrina += 1
+                    self.polja.add(self.lokacija())
+                    self.pot_cela.append(smer)
                 else:
-                    self.je_ziv = False
-                    
+                    self.trdozivost -= 1                    
             if smer == "^":
                 #print("Gor")
                 nova_pozicija = (self.vrstica-1, self.stolpec)
                 if nova_pozicija not in self.zemljevid:
                     self.vrstica -= 1
+                    self.kilometrina += 1
+                    self.polja.add(self.lokacija())
+                    self.pot_cela.append(smer)
                 else:
-                    self.je_ziv = False
+                    self.trdozivost -= 1                    
                     
-            self.polja.add(self.lokacija())
-            
-            '''if self.pot_cela and self.pot_cela[-1] == smer:
-                stevilo = self.pot_cela[-1][1]
-                if stevilo < 9:
-                    self.pot_cela[-1] = (smer, stevilo + 1)
-                else:
-                    self.pot_cela.append(smer, 1)
-            else:
-                self.pot_cela.append(smer, 1)'''                   
-
-    
-
     def prevozi(self, pot):
         #print(zip(pot))
         for dolzina, ukaz in zip(pot[::2], pot[1::2]):
@@ -70,6 +66,7 @@ class Kolesar:
             for x in range(int(dolzina)):
                 self.premik(ukaz)
                 
+
     def razdalja(self):
         return(self.kilometrina)
     
@@ -77,18 +74,28 @@ class Kolesar:
         return self.polja
     
     def pot(self):
-        rezultat = []
+        rezultat = ""
+        if self.pot_cela:
+            trenutno = self.pot_cela[0]
+        else:
+            return(rezultat)
+        stevec = 0
         
-        for smer, stevilo in self.pot_cela:
-            while stevilo > 9:
-                rezultat.append(f"9{smer}")
-                stevilo-=9
+        for ukaz in self.pot_cela:
+            if (ukaz in trenutno) and stevec < 9:
+                stevec+=1
                 
-            if stevilo > 0:
-                rezultat.append(f"{stevilo}{smer}")
+            else:
+                rezultat += f"{stevec}{trenutno}"
+                trenutno = ukaz
+                stevec = 1
                 
-            
-        return "".join(rezultat)
+        rezultat += f"{stevec}{trenutno}"
+        return(rezultat)
+    
+    
+    
+
     
 
         
