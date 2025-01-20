@@ -106,11 +106,61 @@ def obremenitve(imena, porocila):
         
             
 
+def zlata_minuta(i, a):
+    zlate = []
+    stevec = 60
+    rez = False
+    for x in range(60):
+        zlate.append(x)
+        
+    for x in a[60:]:
+        if x != 0:
+            if stevec%2 == 0:
+                if stevec//2 in zlate:
+                    print(f"stevec: {stevec}, stevec//2= {stevec//2}, a = {a[stevec//2]}")
+                    zlate.append(stevec)
+            else:
+                if (stevec//2) in zlate or (stevec+1)//2 in zlate:
+                    zlate.append(stevec)
+        stevec += 1
+        
+    #print(zlate)  
+    #print (a[210])
+    if i in zlate:
+        rez = True
+    return rez
 
 
+class Senzor:
+    def __init__(self, ident):
+        self.ident = ident
+        self.poz = 0
+        self.neg = 0
 
 
+    def prehod(self, smer):
+        if smer == "+":
+            self.poz += 1
+        else:
+            self.neg += 1
+            
+    def prehodov(self):
+        return ((self.poz, self.neg))
+    
 
+class NadzorniSistem:
+    def __init__(self, senzorji):
+        self.senzorji = senzorji
+            
+    def prehod(self, id, smer):
+        for x in self.senzorji:
+            if x.ident == id:
+                return(x.prehod(smer))
+                    
+    def prehodov(self, id):
+        for x in self.senzorji:
+            if x.ident == id:
+                return(x.prehodov())
 
 
 import unittest
