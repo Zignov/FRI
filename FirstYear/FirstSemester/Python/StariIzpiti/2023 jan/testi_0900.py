@@ -42,7 +42,66 @@ def skupne_povezave(pot1, pot2):
     return len(resitev)'''
     
 def najzahtevnejse(zemljevid):
+    seznam = {}
+    resitev = 0
+    rez = ""
+    for (kljuc1, kljuc2), vescine in zemljevid.items():
+        print(kljuc1,kljuc2, "  ", vescine)
+        
+        #for stvar in vescine:
+        if kljuc1 in seznam:
+            print(seznam)
+            print(vescine)
+            seznam[kljuc1].extend(vescine)
+        else:
+            seznam[kljuc1] = list(vescine)
+            
+        #for stvar in vescine:
+        if kljuc2 in seznam:
+            seznam[kljuc2].extend(vescine)
+        else:
+            seznam[kljuc2] = list(vescine)
+            
+        #print(zemljevid)
+    print(seznam)
+        
+    for kljuc, stvar in seznam.items():
+        print(stvar)
+        edinstvene = set(stvar)
+        if stvar:
+            if len(edinstvene) > resitev:
+                rez = kljuc
+                resitev = len(edinstvene) 
+                
+    return rez
+
+
+
+def preberi_zemljevid_povezav(ime_datoteke):
+    slovar = {}
+    t = open(ime_datoteke, mode = "r", encoding= "UTF-8")
+    #print(t)
+
     
+    for vrstica in t:
+        print(vrstica)
+        stvari, kljuci = vrstica.split(":")
+        #print(stvari, ")))))", kljuci)
+        
+        for kljuc in kljuci.strip().split(", "):
+            #print(kljuc)
+            
+            if kljuc in slovar:
+                slovar[kljuc].append(stvari)
+            else:
+                slovar[kljuc] = [stvari]
+                
+    print(slovar)
+    return slovar
+
+
+
+
 
 
 
