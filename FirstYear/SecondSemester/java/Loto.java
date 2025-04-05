@@ -1,7 +1,7 @@
 import java.util.Random;
 
 
-public class loto {
+public class Loto {
     public static void main(String[] args) throws InterruptedException {
         Random rnd = new Random();
 

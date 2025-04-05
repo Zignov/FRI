@@ -1,6 +1,6 @@
-package Vaje;
+package vaje;
 
-public class vaje1 {
+public class Vaje1 {
     public static void pravokonikStevilVrstice(int sirina, int visina){
         for (int i = 1; i<=visina; i++){
             for (int j = 0; j<sirina; j++){

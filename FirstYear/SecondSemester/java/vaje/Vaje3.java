@@ -1,6 +1,6 @@
-package Vaje;
+package vaje;
 
-public class vaje3 {
+public class Vaje3 {
 
     public class Znaki{
         private static final char crnaPika = '\u2B1B'; // črn kvadratek

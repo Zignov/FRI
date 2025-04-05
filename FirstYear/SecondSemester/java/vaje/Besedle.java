@@ -1,11 +1,11 @@
-package Vaje;
+package vaje;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Random;
 import java.util.Scanner;
 
-public class besedle {
+public class Besedle {
 
     // Konstante barv
     static final int BELA = 0;

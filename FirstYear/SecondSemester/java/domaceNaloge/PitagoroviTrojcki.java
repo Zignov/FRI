@@ -1,4 +1,4 @@
-public class pitagoroviTrojcki {
+public class PitagoroviTrojcki {
     public static void pitagoroviTrojcki(int x){
         int[] seznam = new int[x+1];
         for(int i = 1; i<=x; i++){

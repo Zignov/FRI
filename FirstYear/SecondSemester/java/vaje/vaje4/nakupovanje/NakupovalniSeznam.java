@@ -1,4 +1,4 @@
-package Vaje.vaje4.nakupovanje;
+package vaje.vaje4.nakupovanje;
 
 import java.util.Scanner;
 
@@ -36,7 +36,7 @@ public class NakupovalniSeznam {
                 case '1': // ustvari seznam
                     System.out.print("Ustvari seznam.\nVnesi dolžino seznama: ");
                     dol = sc.nextInt();
-                    if (Vaje.vaje4.zbirke.Seznam.narediSeznam(dol))
+                    if (vaje.vaje4.zbirke.Seznam.narediSeznam(dol))
                         System.out.printf("Seznam dolžine %d je ustvarjen.\n", dol);
                     else
                         System.out.printf("NAPAKA: Seznam je že narejen ali podana dolžina ni prava.\n");
@@ -44,7 +44,7 @@ public class NakupovalniSeznam {
                 case '2': // dodaj element na konec
                     System.out.print("Dodaj element na konec.\nNov element: ");
                     element = sc.next();
-                    if (Vaje.vaje4.zbirke.Seznam.dodajNaKonecSeznama(element))
+                    if (vaje.vaje4.zbirke.Seznam.dodajNaKonecSeznama(element))
                         System.out.printf("Element <%s> je dodan na konec seznama.\n", element);
                     else
                         System.out.println("NAPAKA: Seznam še ni narejen ali pa je že poln.");
@@ -54,7 +54,7 @@ public class NakupovalniSeznam {
                     element = sc.next();
                     System.out.print("Mesto vrinjenega elementa (od 1 naprej): ");
                     mesto = sc.nextInt();
-                    if (Vaje.vaje4.zbirke.Seznam.dodajVSeznam(element, mesto))
+                    if (vaje.vaje4.zbirke.Seznam.dodajVSeznam(element, mesto))
                         System.out.printf("Element <%s> je dodan v seznam na mesto %d.\n", element, mesto);
                     else
                         System.out.println("NAPAKA: Seznam še ni narejen, je že poln ali pa je podano napačno mesto.");
@@ -62,27 +62,27 @@ public class NakupovalniSeznam {
                 case '4': // odstrani element na mestu
                     System.out.print("Odstrani element na podanem mestu.\nMesto brisanega elementa: ");
                     mesto = sc.nextInt();
-                    element = Vaje.vaje4.zbirke.Seznam.odstraniIzSeznama(mesto);
+                    element = vaje.vaje4.zbirke.Seznam.odstraniIzSeznama(mesto);
                     if (element != null)
                         System.out.printf("Element <%s> je odstranjen iz seznama.\n", element);
                     else
                         System.out.printf("NAPAKA: Seznam še ni narejen ali element na mestu %d ne obstaja.\n", mesto);
                     break;
                 case '5': // vrni dolžino seznama
-                    dol = Vaje.vaje4.zbirke.Seznam.dolzinaSeznama();
+                    dol = vaje.vaje4.zbirke.Seznam.dolzinaSeznama();
                     if (dol >= 0)
                         System.out.printf("Dolžina seznama je %d.\n", dol);
                     else
                         System.out.println("NAPAKA: Seznam še ni narejen.");
                     break;
                 case '6': // izpiši seznam
-                    Vaje.vaje4.zbirke.Seznam.izpisiSeznam();
+                    vaje.vaje4.zbirke.Seznam.izpisiSeznam();
                     break;
                 /*case '7': // izpiši 64-bitno
                     Vaje.vaje4.zbirke.Seznam.izpisiSeznam64Bit();
                     break;*/
                 case '8': // uniči seznam
-                    if (Vaje.vaje4.zbirke.Seznam.uniciSeznam())
+                    if (vaje.vaje4.zbirke.Seznam.uniciSeznam())
                         System.out.println("Seznam je uničen.");
                     else
                         System.out.println("NAPAKA: Seznam ne obstaja.");

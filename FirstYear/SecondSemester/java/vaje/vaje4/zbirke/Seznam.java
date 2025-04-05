@@ -1,4 +1,4 @@
-package Vaje.vaje4.zbirke;
+package vaje.vaje4.zbirke;
 
 public class Seznam {
 
