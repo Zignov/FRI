@@ -123,67 +123,156 @@ public class DN05 {
 
         for (int i = 0; i<postavitev.length; i++){      //ladje
 
+            boolean napaka = false;
+
             //povrsina[postavitev[i][2]][postavitev[i][0]+postavitev[i][1]] = (i+1)*10+1;
             for(int j = 0; j<postavitev[i][3]; j++){    //dolzina
                 try {
                     switch (postavitev[i][4]) {
 
-                        case (0):
-                            x = postavitev[i][2] - j - 1;
-                            y = postavitev[i][0] * sirina + postavitev[i][1] - 1;
-                            if (povrsina[x][y] == 0)
+                        case (1):
+                            x = postavitev[i][2] - j;
+                            y = postavitev[i][0] * sirina + postavitev[i][1];
+                            if (povrsina[x][y] == 0) //todo implement middle checking in if statement with &&
                                 povrsina[x][y] = (i + 1) * 10 + 1 + j;
                             else{
-                                //TODO odstrani function, k bo dobu j pa su cez celo tabelo pa brisov
+                                napaka = true;
                             }
                             break;
-                        case (1):
-                            x = postavitev[i][2] + j - 1;
-                            y = postavitev[i][0] * sirina + postavitev[i][1] - 1;
+                        case (0):
+                            x = postavitev[i][2] + j;
+                            y = postavitev[i][0] * sirina + postavitev[i][1];
                             if (povrsina[x][y] == 0) {
                                 povrsina[x][y] = (i + 1) * 10 + 1 + j;
                             }
-                            break;
-                        case (2):
-                            x = postavitev[i][2] - 1;
-                            y = postavitev[i][0] * sirina + postavitev[i][1] + j - 1;
-                            if (povrsina[x][y] == 0) {
-                                povrsina[x][y] = (i + 1) * 10 + 1 + j;
+                            else{
+                                napaka = true;
                             }
                             break;
                         case (3):
-                            x = postavitev[i][2] - 1;
-                            y = postavitev[i][0] * sirina + postavitev[i][1] - j - 1;
+                            x = postavitev[i][2];
+                            y = postavitev[i][0] * sirina + postavitev[i][1] + j;
                             if (povrsina[x][y] == 0) {
                                 povrsina[x][y] = (i + 1) * 10 + 1 + j;
+                            }
+                            else{
+                                napaka = true;
+                            }
+                            break;
+                        case (2):
+                            x = postavitev[i][2];
+                            y = postavitev[i][0] * sirina + postavitev[i][1] - j;
+                            if (povrsina[x][y] == 0) {
+                                povrsina[x][y] = (i + 1) * 10 + 1 + j;
+                            }
+                            else{
+                                napaka = true;
                             }
                             break;
                     }
                 }
                 catch (Exception e){
+                    napaka = true;
                     continue;
+                }
+                if(napaka){
+                    System.out.println("Napaka pri ladji $" + (i+1));
+                    break;
+                }
+
+
+            }
+            if (napaka){
+                odstrani(i+1, povrsina);
+            }
+        }
+
+
+        return povrsina;
+    }
+
+    public static void odstrani(int oznakaLadje, int[][] povrsina){
+        for (int i = 0; i < povrsina.length; i++) {
+            for (int j = 0; j < povrsina[i].length; j++) {
+                if ((int)Math.floor(povrsina[i][j] / 10) == oznakaLadje){
+                    povrsina[i][j] = 0;
                 }
             }
         }
+    }
+
+    public static void izrisPovrsineDev(int[][] povrsina){
         for (int i = 0; i < povrsina.length; i++) {
             for (int j = 0; j < povrsina[i].length; j++) {
                 System.out.printf("%3d", povrsina[i][j]); // fixed-width columns
             }
             System.out.println();
         }
+    }
 
-        return postavitev;
+
+    public static void izrisiIgralnoPovrsino(int[][] igralnaPovrsina) {
+
+
+        for (int i = 0; i<visina+2; i++){
+
+                for(int j = 0; j<2*sirina+3; j++){
+                    if(i == 0 || j == 0 || i ==visina+1 || j == sirina*2 + 2 || j == (sirina*2+2)/2){
+                        System.out.print("# ");
+                    }
+
+                    else{
+                        try{
+                            int checkY = i - 1;
+                            int checkX = 0;
+
+                            if (j<(2*sirina+3)/2){
+                                checkX = j-1;
+                            }
+                            else if(j>(2*sirina+3)/2){
+                                checkX = j-2;
+                            }
+                            else {
+                                continue;
+                            }
+
+                            String plovec = "p ";
+                            String trup = "t ";
+                            if (igralnaPovrsina[checkY][checkX] == 0){
+                                System.out.print("  ");
+                            }
+                            else {
+                                if(igralnaPovrsina[checkY][checkX] % 10 == 1){
+                                    System.out.print(plovec);
+                                }
+                                else {
+                                    System.out.print(trup);
+                                }
+                            }
+
+                        }
+                        catch (Exception e){
+                            continue;
+                        }
+                    }
+                }
+                System.out.println();
+        }
     }
 
     public static void main (String[] args){
 
+        int [][] postavitev;
+        postavitev = preberiZacetnoPostavitev(args[1]);
         if (args.length == 2){
             if(args[0].equals("postavitev")){
-                int[][] postavitev = preberiZacetnoPostavitev(args[1]);
+
                 izpisiPostavitev(postavitev);
-                izdeljaIgralnoPovrsino(postavitev);
             }
         }
+        int[][] povrsina = izdeljaIgralnoPovrsino(postavitev);
+        izrisPovrsineDev(povrsina);
+        izrisiIgralnoPovrsino(povrsina);
     }
 
 }
