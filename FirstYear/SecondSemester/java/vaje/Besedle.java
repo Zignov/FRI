@@ -174,8 +174,10 @@ public class Besedle {
             // Pobarvaj crke v besedi (namigi)
             int[] barve = pobarvajBesedo(ugibanaBeseda);
 
+
             // Izpiši pobarvano besedo
             izpisiBesedo(ugibanaBeseda, barve);
+            System.out.println();
 
             if (ugibanaBeseda.equals(iskanaBeseda)) {
                 uganil = true;
