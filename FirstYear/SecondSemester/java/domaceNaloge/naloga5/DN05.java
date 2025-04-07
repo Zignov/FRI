@@ -1,4 +1,4 @@
-package naloga5;
+//package naloga5;
 
 import java.io.File;
 import java.util.Scanner;
@@ -145,7 +145,12 @@ public class DN05 {
                             if (x < 0 || x>= visina || y<levaOmejitev || y>desnaOmejitev || povrsina[x][y] != 0) //todo implement middle checking in if statement with &&
                                 napaka = true;
                             else{
-                                povrsina[x][y] = (i + 1) * 10 + 1 + j;
+                                if(j==0){
+                                    povrsina[x][y] = (i + 1) * 10 + 1;
+                                }
+                                else {
+                                    povrsina[x][y] = (i+1) * 10 + 2;
+                                }
                             }
                             break;
                         case (0):
@@ -155,7 +160,12 @@ public class DN05 {
                                 napaka = true;
                             }
                             else{
-                                povrsina[x][y] = (i + 1) * 10 + 1 + j;
+                                if(j==0){
+                                    povrsina[x][y] = (i + 1) * 10 + 1;
+                                }
+                                else {
+                                    povrsina[x][y] = (i+1) * 10 + 2;
+                                }
                             }
                             break;
                         case (3):
@@ -165,7 +175,12 @@ public class DN05 {
                                 napaka = true;
                             }
                             else{
-                                povrsina[x][y] = (i + 1) * 10 + 1 + j;
+                                if(j==0){
+                                    povrsina[x][y] = (i + 1) * 10 + 1;
+                                }
+                                else {
+                                    povrsina[x][y] = (i+1) * 10 + 2;
+                                }
                             }
                             break;
                         case (2):
@@ -175,7 +190,12 @@ public class DN05 {
                                 napaka = true;
                             }
                             else{
-                                povrsina[x][y] = (i + 1) * 10 + 1 + j;
+                                if(j==0){
+                                    povrsina[x][y] = (i + 1) * 10 + 1;
+                                }
+                                else {
+                                    povrsina[x][y] = (i+1) * 10 + 2;
+                                }
                             }
                             break;
                     }
@@ -247,19 +267,36 @@ public class DN05 {
                                 continue;
                             }
 
-                            String plovec = "p ";
-                            String trup = "t ";
-                            if (igralnaPovrsina[checkY][checkX] == 0){
-                                System.out.print("  ");
+
+                            int mesto = igralnaPovrsina[checkY][checkX]%10;
+
+                            switch (mesto) {
+                                case 0:
+                                    System.out.print("  ");
+                                    break;
+                                case 1:
+                                    System.out.print("p ");
+                                    break;
+                                case 2:
+                                    System.out.print("t ");
+                                    break;
+                                case 3:
+                                    System.out.print("X ");
+                                    break;
+                                case 4:
+                                    System.out.print("x ");
+                                    break;
+                                case 5:
+                                    System.out.print("@ ");
+                                    break;
+                                case 6:
+                                    System.out.print("o ");
+                                    break;
+                                default:
+                                    System.out.print("? ");
+                                    break;
                             }
-                            else {
-                                if(igralnaPovrsina[checkY][checkX] % 10 == 1){
-                                    System.out.print(plovec);
-                                }
-                                else {
-                                    System.out.print(trup);
-                                }
-                            }
+
 
                         }
                         catch (Exception e){
@@ -271,24 +308,107 @@ public class DN05 {
         }
     }
 
-    public static void main (String[] args){
+    public static int[][] simulirajIgro(int[][] igralnaPovrsina, String imeDatoteke){
+        Scanner sc = null;
+        try{
+            sc = new Scanner(new File(imeDatoteke));
+            int stevec = 1;
 
-        if (args.length == 2) {
-            String ukaz = args[0];
-            String datoteka = args[1];
+            while(sc.hasNextLine()){
+                String koordinate = sc.nextLine();
+                try {
+                    int xKoridnata = Integer.parseInt(koordinate.split(",")[0])-1;
+                    int yKoridnata = Integer.parseInt(koordinate.split(",")[1])-1;
 
-            int[][] postavitev = preberiZacetnoPostavitev(datoteka);
-            if (postavitev == null) {
-                return;
+                    if (xKoridnata < 0 || yKoridnata < 0 || xKoridnata > sirina-1  || yKoridnata > visina-1){
+                        System.out.println("Negativna poteza");
+                        break;
+                    }
+
+                    xKoridnata = xKoridnata + sirina*(stevec%2);
+
+                    if (igralnaPovrsina[yKoridnata][xKoridnata] == 0){
+                        igralnaPovrsina[yKoridnata][xKoridnata] = 6;
+                        stevec++;
+                    }
+                    else if (igralnaPovrsina[yKoridnata][xKoridnata] % 10 == 1){
+                        igralnaPovrsina[yKoridnata][xKoridnata] += 2;
+                        preveriPotopljena(igralnaPovrsina, igralnaPovrsina[yKoridnata][xKoridnata] / 10);
+                    }
+                    else{
+                        igralnaPovrsina[yKoridnata][xKoridnata] += 2;
+                        preveriPotopljena(igralnaPovrsina, igralnaPovrsina[yKoridnata][xKoridnata] / 10);
+                    }
+
+                }
+                catch (Exception e){
+                    System.out.println("niso stevila");
+                }
+
             }
+            izrisiIgralnoPovrsino(igralnaPovrsina);
 
-            if (ukaz.equals("postavitev")) {
-                izpisiPostavitev(postavitev);
-            } else if (ukaz.equals("povrsina")) {
-                int[][] povrsina = izdeljaIgralnoPovrsino(postavitev);
-                izrisiIgralnoPovrsino(povrsina);
+        }
+        catch (Exception e){
+            System.out.println("Napaka pri branju");
+        }
+        finally {
+            sc.close();
+        }
+
+        return igralnaPovrsina;
+    }
+
+    public static void preveriPotopljena(int[][] igralnaPovrsina, int oznakaLadje){
+        boolean potopljena = true;
+        int potopljenaLadja = 0;
+        for(int i = 0; i < visina; i++){
+            for (int j = 0; j< sirina*2; j++){
+                if (igralnaPovrsina[i][j] / 10 == oznakaLadje){
+                    potopljena = false;
+                    break;
+                }
             }
         }
+
+        if (potopljena){
+            for(int i = 0; i<visina; i++){
+                for (int j = 0; j<sirina*2; j++){
+                    if(igralnaPovrsina[i][j] == (oznakaLadje*10 + 3) || (igralnaPovrsina[i][j] == (oznakaLadje*10 + 4))){
+                        igralnaPovrsina[i][j] = oznakaLadje * 10 + 5;
+                    }
+                }
+            }
+        }
+    }
+
+
+    public static void main (String[] args){
+
+        String ukaz = args[0];
+        String datoteka = args[1];
+
+        int[][] postavitev = preberiZacetnoPostavitev(datoteka);
+        if (postavitev == null) {
+            return;
+        }
+
+        if (ukaz.equals("postavitev")) {
+            izpisiPostavitev(postavitev);
+        }
+        else if (ukaz.equals("povrsina")) {
+            int[][] povrsina = izdeljaIgralnoPovrsino(postavitev);
+            izrisiIgralnoPovrsino(povrsina);
+        }
+        else if(ukaz.equals("simulacija")){
+            int[][] povrsina = izdeljaIgralnoPovrsino(postavitev);
+            povrsina = simulirajIgro(povrsina, args[2]);
+            //izrisiIgralnoPovrsino(povrsina);
+        }
+
+
+
+
         /*int[][] povrsina = izdeljaIgralnoPovrsino(postavitev);
         izrisPovrsineDev(povrsina);
         izrisiIgralnoPovrsino(povrsina);*/
