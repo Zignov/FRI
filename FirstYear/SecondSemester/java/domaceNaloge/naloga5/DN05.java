@@ -142,7 +142,7 @@ public class DN05 {
                         case (1):
                             x = postavitev[i][2] - j;
                             y = postavitev[i][0] * sirina + postavitev[i][1];
-                            if (x < 0 || x>= visina || y<levaOmejitev || y>desnaOmejitev || povrsina[x][y] != 0) //todo implement middle checking in if statement with &&
+                            if (x < 0 || x>= visina || y<levaOmejitev || y>desnaOmejitev || povrsina[x][y] != 0)
                                 napaka = true;
                             else{
                                 if(j==0){
@@ -293,7 +293,7 @@ public class DN05 {
                                     System.out.print("o ");
                                     break;
                                 default:
-                                    System.out.print("? ");
+                                    System.out.print("?"+String.valueOf(mesto)+"?");
                                     break;
                             }
 
@@ -315,38 +315,57 @@ public class DN05 {
             int stevec = 1;
 
             while(sc.hasNextLine()){
+                if(konecIgre(igralnaPovrsina)){
+                    return igralnaPovrsina;
+                }
+
                 String koordinate = sc.nextLine();
                 try {
                     int xKoridnata = Integer.parseInt(koordinate.split(",")[0])-1;
                     int yKoridnata = Integer.parseInt(koordinate.split(",")[1])-1;
 
-                    if (xKoridnata < 0 || yKoridnata < 0 || xKoridnata > sirina-1  || yKoridnata > visina-1){
-                        System.out.println("Negativna poteza");
-                        break;
-                    }
 
                     xKoridnata = xKoridnata + sirina*(stevec%2);
+                    if (xKoridnata >= 0 && yKoridnata >= 0 && xKoridnata < sirina * 2  && yKoridnata < visina && xKoridnata-sirina*(stevec%2) < sirina && xKoridnata-sirina*(stevec%2) >= 0){
 
-                    if (igralnaPovrsina[yKoridnata][xKoridnata] == 0){
-                        igralnaPovrsina[yKoridnata][xKoridnata] = 6;
-                        stevec++;
-                    }
-                    else if (igralnaPovrsina[yKoridnata][xKoridnata] % 10 == 1){
-                        igralnaPovrsina[yKoridnata][xKoridnata] += 2;
-                        preveriPotopljena(igralnaPovrsina, igralnaPovrsina[yKoridnata][xKoridnata] / 10);
-                    }
-                    else{
-                        igralnaPovrsina[yKoridnata][xKoridnata] += 2;
-                        preveriPotopljena(igralnaPovrsina, igralnaPovrsina[yKoridnata][xKoridnata] / 10);
-                    }
+                        int stanje = igralnaPovrsina[yKoridnata][xKoridnata] % 10;
 
+                        //System.out.printf("%d, %d, player: %d", xKoridnata-(sirina*(stevec%2))+1, yKoridnata+1, stevec%2);
+                        //System.out.println();
+
+                        if (igralnaPovrsina[yKoridnata][xKoridnata] == 0){
+                            igralnaPovrsina[yKoridnata][xKoridnata] = 6;
+                            //System.out.println("navadn povecanje");
+                            stevec++;
+                        }
+                        else if (stanje == 1){
+                            igralnaPovrsina[yKoridnata][xKoridnata] += 2;
+                            preveriPotopljena(igralnaPovrsina, igralnaPovrsina[yKoridnata][xKoridnata] / 10);
+                        }
+                        else if (stanje == 2){
+                            igralnaPovrsina[yKoridnata][xKoridnata] += 2;
+                            preveriPotopljena(igralnaPovrsina, igralnaPovrsina[yKoridnata][xKoridnata] / 10);
+                        }
+                        else{
+                            //System.out.println("else1");
+                            stevec++;
+                        }
+
+                        /*if(konecIgre(igralnaPovrsina)){
+                            return igralnaPovrsina;
+                        }*/
+                    }
+                    else {
+                        //System.out.println("else2");
+                        //System.out.println("negativna poteza");
+                        //stevec++;
+                    }
                 }
                 catch (Exception e){
-                    System.out.println("niso stevila");
+                    //System.out.println("niso stevila");
                 }
-
             }
-            izrisiIgralnoPovrsino(igralnaPovrsina);
+            //izrisiIgralnoPovrsino(igralnaPovrsina);
 
         }
         catch (Exception e){
@@ -365,8 +384,10 @@ public class DN05 {
         for(int i = 0; i < visina; i++){
             for (int j = 0; j< sirina*2; j++){
                 if (igralnaPovrsina[i][j] / 10 == oznakaLadje){
-                    potopljena = false;
-                    break;
+                    if(igralnaPovrsina[i][j]%10 != 3 && igralnaPovrsina[i][j]%10 != 4){
+                        potopljena = false;
+                        break;
+                    }
                 }
             }
         }
@@ -379,9 +400,32 @@ public class DN05 {
                     }
                 }
             }
+
         }
     }
 
+
+    public static boolean konecIgre(int[][] igralnaPovrsina){
+        boolean zmaga1 = true;
+        boolean zmaga2 = true;
+        for (int i = 0; i<visina; i++){
+            for (int j = 0; j<sirina; j++){
+                if(igralnaPovrsina[i][j] != 0 && igralnaPovrsina[i][j] % 10 != 5 && igralnaPovrsina[i][j] != 6){
+                    zmaga1 = false;
+                    break;
+                }
+            }
+            for(int j = sirina; j<sirina*2; j++){
+                if(igralnaPovrsina[i][j] != 0 && igralnaPovrsina[i][j] % 10 != 5 && igralnaPovrsina[i][j] != 6) {
+                    zmaga2 = false;
+                    break;
+                }
+            }
+        }
+        //System.out.println(zmaga1||zmaga2);
+        //izrisPovrsineDev(igralnaPovrsina);
+        return zmaga1 || zmaga2;
+    }
 
     public static void main (String[] args){
 
@@ -403,7 +447,7 @@ public class DN05 {
         else if(ukaz.equals("simulacija")){
             int[][] povrsina = izdeljaIgralnoPovrsino(postavitev);
             povrsina = simulirajIgro(povrsina, args[2]);
-            //izrisiIgralnoPovrsino(povrsina);
+            izrisiIgralnoPovrsino(povrsina);
         }
 
 
