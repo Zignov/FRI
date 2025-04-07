@@ -30,7 +30,7 @@ public class DN05 {
             sirina = Integer.parseInt(velikost.split("x")[0]);
             visina = Integer.parseInt(velikost.split("x")[1]);
 
-            if (sirina<0 || visina<0){
+            if (sirina<=0 || visina<=0){
                 System.out.println("Napaka: Dimenzija mora biti pozitivna.");
                 return null;
             }
@@ -57,6 +57,12 @@ public class DN05 {
                 }
 
                 String[] ladja = sc.nextLine().split(" ");
+
+                if (Integer.parseInt(ladja[0]) != 0 && Integer.parseInt(ladja[0]) != 1){
+                    System.out.println("Napaka: Nepravilen podatek o postavitvi ladje.");
+                    return null;
+                }
+
                 if (ladja.length != 5){
                     System.out.println("Napaka: Nepravilen podatek o postavitvi ladje.");
                     return null;
@@ -118,8 +124,8 @@ public class DN05 {
 
     public static int[][] izdeljaIgralnoPovrsino(int[][] postavitev){
         int[][] povrsina = new int[visina][2*sirina];
-        int x;
-        int y;
+        int x = 0;
+        int y = 0;
 
         for (int i = 0; i<postavitev.length; i++){      //ladje
 
@@ -128,55 +134,60 @@ public class DN05 {
             //povrsina[postavitev[i][2]][postavitev[i][0]+postavitev[i][1]] = (i+1)*10+1;
             for(int j = 0; j<postavitev[i][3]; j++){    //dolzina
                 try {
-                    switch (postavitev[i][4]) {
+                    int igralec = postavitev[i][0];
+                    int levaOmejitev = igralec * sirina;
+                    int desnaOmejitev = (igralec + 1) * sirina - 1;
 
+                    switch (postavitev[i][4]) {
                         case (1):
                             x = postavitev[i][2] - j;
                             y = postavitev[i][0] * sirina + postavitev[i][1];
-                            if (povrsina[x][y] == 0) //todo implement middle checking in if statement with &&
-                                povrsina[x][y] = (i + 1) * 10 + 1 + j;
-                            else{
+                            if (x < 0 || x>= visina || y<levaOmejitev || y>desnaOmejitev || povrsina[x][y] != 0) //todo implement middle checking in if statement with &&
                                 napaka = true;
+                            else{
+                                povrsina[x][y] = (i + 1) * 10 + 1 + j;
                             }
                             break;
                         case (0):
                             x = postavitev[i][2] + j;
                             y = postavitev[i][0] * sirina + postavitev[i][1];
-                            if (povrsina[x][y] == 0) {
-                                povrsina[x][y] = (i + 1) * 10 + 1 + j;
+                            if (x < 0 || x>= visina || y<levaOmejitev || y>desnaOmejitev || povrsina[x][y] != 0) {
+                                napaka = true;
                             }
                             else{
-                                napaka = true;
+                                povrsina[x][y] = (i + 1) * 10 + 1 + j;
                             }
                             break;
                         case (3):
                             x = postavitev[i][2];
                             y = postavitev[i][0] * sirina + postavitev[i][1] + j;
-                            if (povrsina[x][y] == 0) {
-                                povrsina[x][y] = (i + 1) * 10 + 1 + j;
+                            if (x < 0 || x>= visina || y<levaOmejitev || y>desnaOmejitev || povrsina[x][y] != 0) {
+                                napaka = true;
                             }
                             else{
-                                napaka = true;
+                                povrsina[x][y] = (i + 1) * 10 + 1 + j;
                             }
                             break;
                         case (2):
                             x = postavitev[i][2];
                             y = postavitev[i][0] * sirina + postavitev[i][1] - j;
-                            if (povrsina[x][y] == 0) {
-                                povrsina[x][y] = (i + 1) * 10 + 1 + j;
+                            if (x < 0 || x>= visina || y<levaOmejitev || y>desnaOmejitev || povrsina[x][y] != 0) {
+                                napaka = true;
                             }
                             else{
-                                napaka = true;
+                                povrsina[x][y] = (i + 1) * 10 + 1 + j;
                             }
                             break;
                     }
+
+
                 }
                 catch (Exception e){
                     napaka = true;
                     continue;
                 }
                 if(napaka){
-                    System.out.println("Napaka pri ladji $" + (i+1));
+                    //System.out.println("Napaka pri ladji $" + (i+1));
                     break;
                 }
 
@@ -262,17 +273,25 @@ public class DN05 {
 
     public static void main (String[] args){
 
-        int [][] postavitev;
-        postavitev = preberiZacetnoPostavitev(args[1]);
-        if (args.length == 2){
-            if(args[0].equals("postavitev")){
+        if (args.length == 2) {
+            String ukaz = args[0];
+            String datoteka = args[1];
 
+            int[][] postavitev = preberiZacetnoPostavitev(datoteka);
+            if (postavitev == null) {
+                return;
+            }
+
+            if (ukaz.equals("postavitev")) {
                 izpisiPostavitev(postavitev);
+            } else if (ukaz.equals("povrsina")) {
+                int[][] povrsina = izdeljaIgralnoPovrsino(postavitev);
+                izrisiIgralnoPovrsino(povrsina);
             }
         }
-        int[][] povrsina = izdeljaIgralnoPovrsino(postavitev);
+        /*int[][] povrsina = izdeljaIgralnoPovrsino(postavitev);
         izrisPovrsineDev(povrsina);
-        izrisiIgralnoPovrsino(povrsina);
+        izrisiIgralnoPovrsino(povrsina);*/
     }
 
 }
