@@ -427,6 +427,168 @@ public class DN05 {
         return zmaga1 || zmaga2;
     }
 
+
+    public static int[][] minimizirajIgralnoPovrsino(int[][] postavitev, int[][] igralnaPovrsina) {
+        boolean lahkozmansa = true;
+        while(true) {
+            for (int j = 0; j < sirina * 2; j++) {          //zgrornja vrstica 0
+                if (igralnaPovrsina[0][j] != 0) {
+                    lahkozmansa = false;
+                    break;
+                }
+            }
+            if (lahkozmansa) {
+                visina--;
+                int[][] temp = new int[visina][sirina * 2];
+                for (int i = 0; i < visina; i++) {
+                    for (int j = 0; j < sirina * 2; j++) {
+                        temp[i][j] = igralnaPovrsina[i + 1][j];
+                    }
+                }
+                igralnaPovrsina = temp;
+                for (int i = 0; i < postavitev.length; i++) {
+                    postavitev[i][2] -= 1;
+                }
+            }
+            else {
+                break;
+            }
+        }
+        lahkozmansa = true;
+
+        while(true) {               //spodnja vrstica 0
+            for (int j = 0; j < sirina * 2; j++) {
+                if (igralnaPovrsina[visina - 1][j] != 0) {
+                    lahkozmansa = false;
+                    break;
+                }
+            }
+            if (lahkozmansa) {
+                visina--;
+                int[][] temp = new int[visina][sirina * 2];
+                for (int i = 0; i < visina; i++) {
+                    for (int j = 0; j < sirina * 2; j++) {
+                        temp[i][j] = igralnaPovrsina[i][j];
+                    }
+                }
+                igralnaPovrsina = temp;
+            }
+            else {
+                break;
+            }
+        }
+        lahkozmansa = true;
+
+        while(true){            //leva vrstica 0
+            for (int i = 0; i<visina; i++){
+                if(igralnaPovrsina[i][0] != 0 || igralnaPovrsina[i][sirina] != 0){
+                    lahkozmansa = false;
+                    break;
+                }
+            }
+
+            if(lahkozmansa){
+                sirina--;
+                int[][] temp = new int[visina][sirina*2];
+
+                for (int i = 0; i < visina; i++) {
+                    for (int j = 1; j < sirina; j++) {
+                        temp[i][j - 1] = igralnaPovrsina[i][j];
+                    }
+                    for (int j = sirina + 1; j < sirina * 2; j++) {
+                        temp[i][j - 2] = igralnaPovrsina[i][j];
+                    }
+                }
+                igralnaPovrsina = temp;
+
+                for (int i = 0; i < postavitev.length; i++) {
+                    postavitev[i][1] -= 1;
+                }
+            }
+            else {
+                break;
+            }
+
+            lahkozmansa = true;
+        }
+
+        while(true){            //desna vrstica 0
+            lahkozmansa = true;
+            for (int i = 0; i<visina; i++){
+                if(igralnaPovrsina[i][sirina-1] != 0 || igralnaPovrsina[i][sirina*2-1] != 0){
+                    lahkozmansa = false;
+                    break;
+                }
+            }
+
+            if(lahkozmansa){
+                sirina--;
+                int[][] temp = new int[visina][sirina*2];
+
+                for (int i = 0; i < visina; i++) {
+                    for (int j = 0; j < sirina; j++) {
+                        temp[i][j] = igralnaPovrsina[i][j];
+                    }
+                    for (int j = sirina; j < sirina * 2; j++) {
+                        temp[i][j] = igralnaPovrsina[i][j + 1];
+                    }
+                }
+
+                for (int i = 0; i < postavitev.length; i++) {
+                    postavitev[i][1] -= 1;
+                }
+                igralnaPovrsina = temp;
+            }
+            else {
+                break;
+            }
+
+            lahkozmansa = true;
+        }
+
+        return igralnaPovrsina;
+    }
+
+    public static int[][] povecajIgralnoPovrsino(int[][] postavitev, String noveDimenzije) {
+        String[] dimenzije = noveDimenzije.split("x");
+
+        if (dimenzije.length != 2){
+            return izdeljaIgralnoPovrsino(postavitev);
+        }
+        int novaSirina;
+        int novaVisina;
+
+        try{
+            novaSirina = Integer.parseInt(dimenzije[0]);
+            novaVisina = Integer.parseInt((dimenzije[1]));
+        }
+        catch (Exception e){
+            return izdeljaIgralnoPovrsino(postavitev);
+        }
+
+        if(novaSirina<=sirina && novaVisina<=visina){
+            return izdeljaIgralnoPovrsino(postavitev);
+        }
+
+        int spremembaVisine = Math.max(0, novaVisina - visina);
+        int spremebaSirine = Math.max(0, novaSirina - sirina);
+
+        int gor = spremembaVisine/2 + (spremembaVisine%2);
+
+        int levo = spremebaSirine/2 + (spremebaSirine%2);
+
+
+        for(int i = 0; i<postavitev.length; i++){
+            postavitev[i][1] += levo;
+            postavitev[i][2] += gor;
+        }
+
+        visina = Math.max(visina, novaVisina);
+        sirina = Math.max(sirina, novaSirina);
+        return postavitev;
+    }
+
+
     public static void main (String[] args){
 
         String ukaz = args[0];
@@ -448,6 +610,17 @@ public class DN05 {
             int[][] povrsina = izdeljaIgralnoPovrsino(postavitev);
             povrsina = simulirajIgro(povrsina, args[2]);
             izrisiIgralnoPovrsino(povrsina);
+        }
+        else if(ukaz.equals("zmanjsanje")){
+            int[][] povrsina = izdeljaIgralnoPovrsino(postavitev);
+            povrsina = minimizirajIgralnoPovrsino(postavitev, povrsina);
+            //izrisPovrsineDev(povrsina);
+            izrisiIgralnoPovrsino(povrsina);
+        }
+        else if(ukaz.equals("povecanje")){
+            postavitev = povecajIgralnoPovrsino(postavitev, args[2]);
+            int[][] igra = izdeljaIgralnoPovrsino(postavitev);
+            izrisiIgralnoPovrsino(igra);
         }
 
 
