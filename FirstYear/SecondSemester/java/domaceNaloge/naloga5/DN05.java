@@ -1,4 +1,4 @@
-//package naloga5;
+package naloga5;
 
 import java.io.File;
 import java.util.Scanner;
