@@ -1,5 +1,6 @@
 package vaje.vaje4.zbirke;
 
+
 public class Seznam {
 
 
@@ -13,15 +14,13 @@ public class Seznam {
      */
 
     public static boolean narediSeznam(int n){
-        try{
+        if (seznam != null){
+            System.out.print("Seznam ze obsaja");
+            return false;
+        }
             seznam = new String[n];
             return true;
         }
-        catch(Exception e) {
-            System.out.print("seznam ze obstaja");
-            return false;
-        }
-    }
 
     /**
      * Doda element na zadnje (prazno) mesto v seznamu
@@ -37,6 +36,8 @@ public class Seznam {
         return true;
 
     }
+
+
 
     /**
      * Metoda izpise vse elemente v seznamu
@@ -63,6 +64,11 @@ public class Seznam {
      * @return null ob napaki, odstranjen element ob uspehu
      */
     public static String odstraniIzSeznama(int mesto){
+
+        if(mesto < 1){
+            return null;
+        }
+
         if (seznam == null){
             return null;
         }
@@ -98,6 +104,13 @@ public class Seznam {
         if (index > seznam.length) {
             dodajNaKonecSeznama(element);
         } else {
+            for (int i = index; index < stStvari; i++){
+                if (i != stStvari -1){
+                    seznam[i] = seznam[i+1];
+                }
+            }
+
+
             seznam[index] = element;
         }
         return true;
