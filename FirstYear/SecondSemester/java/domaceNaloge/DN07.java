@@ -33,16 +33,18 @@ public class DN07 {
 
 
     public void sestevek(String[] imena, Planet[] seznam, String ime){
-        int sestevek = 0;
+        double sestevek = 0;
         for(int i = 0; i<seznam.length; i++){
             for(int j = 0; j< imena.length; j++){
                 if(seznam[i].getIme().equalsIgnoreCase(imena[j])){
-                    sestevek += seznam[i].getRadij();
+                    //System.out.print(seznam[i].getIme() + " ");
+                    //System.out.println(seznam[i].getRadij());
+                    sestevek += seznam[i].povrsina();
                 }
             }
         }
         if(sestevek != 0){
-            System.out.printf("Povrsina planetov %s je %d milijonov km2",ime, sestevek);
+            System.out.printf("Povrsina planetov \"%s\" je %.0f milijonov km2",ime, sestevek/1000000);
         }
     }
 
