@@ -31,26 +31,18 @@ public class Upravljanje {
         // v banki naredimo račune z določenimi stanji, vse podatke preberemo iz datoteke
         dodajRacune("viri/racuni.txt", bankaFRI);
 
-        // TODO: izpiši vse račune
         bankaFRI.izpisiRacune();
 
-        // TODO: izpiši vse tekoče račune
         bankaFRI.izpisiRacune(false);
 
         String stevilkaRacuna = "SI56 1234 4321 1234 126"; // tekoči z limitom 100 €
         // String stevilkaRacuna = "SI56 7823 4563 8346 123"; // varčevalni z 0,1% obrestmi
 
 
-        // TODO: položi znesek na račun in preveri novo stanje z izpisom računov
         bankaFRI.polog(stevilkaRacuna, 50000);
 
-
-        // TODO: dvigni znesek z računa in preveri novo stanje z izpisom računov
         bankaFRI.dvig(stevilkaRacuna, 80);
         bankaFRI.izpisiRacune();
-
-
-        // TODO: preveri še ostale metode banke
 
     }
 }
