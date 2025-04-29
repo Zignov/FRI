@@ -77,6 +77,14 @@ public class Logika {
     }
 
     public static boolean jeKonec(){
+        /*for (int i = 0; i<polja.length-1; i++){
+            for(int j=0; j<polja[i].length-1; j++){
+                if(polja[i][j] != 0 && polja[i][j] != polja [i][j+1] || polja[i][j] != polja [i+1][j]){
+                    konec = true;
+                }
+            }
+        }
+        return konec;*/
         return konec;
     }
 
