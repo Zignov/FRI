@@ -113,8 +113,7 @@ class TekociRacun extends Racun{
     @Override
     public boolean dvig(double znesek){
         if(znesek<=limit){
-            super.dvig(znesek);
-            return true;
+            return super.dvig(znesek);
         }
         return false;
     }
