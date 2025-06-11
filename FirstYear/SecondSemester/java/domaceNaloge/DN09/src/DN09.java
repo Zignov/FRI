@@ -53,25 +53,26 @@ public class DN09 {
                 String ime = podatki[1];
                 int x = Integer.parseInt(podatki[2]);
                 int y = Integer.parseInt(podatki[3]);
-                String stringLinje = podatki[4];
-                String[] avtobusi = new String[0];
+                String[] stringLinje = podatki[4].split(";");
+                String[] stringAvtobusi = podatki[5].split(";");
                 int cakajoci = Integer.parseInt(podatki[6]);
 
                 if (!podatki[5].isEmpty()) {
-                    avtobusi = podatki[5].split(";");
-                    for (int j = 0; j < avtobusi.length; j++) {
-                        int idAvtobusa = Integer.parseInt(avtobusi[j].split("\\(")[0]);
-                        int stPotnikov = Integer.parseInt(avtobusi[j].split("\\(")[1].replace(")", ""));
+                    for (int j = 0; j < stringAvtobusi.length; j++) {
+                        int idAvtobusa = Integer.parseInt(stringAvtobusi[j].split("\\(")[0]);
+                        int stPotnikov = Integer.parseInt(stringAvtobusi[j].split("\\(")[1].replace(")", ""));
                         Avtobus avtobus = new Avtobus(idAvtobusa, stPotnikov);
-                        avtobus.setTrenutnaPostaja(new Postaja(id, ime, x, y, cakajoci));
                         dn09.avtobusi[j] = avtobus;
                     }
                 }
 
 
 
-
                 dn09.postaje[i] = new Postaja(id, ime, x, y, cakajoci);
+
+                for(int j = 0; j<stringLinje.length; j++){
+                    dn09.linije[j] = new Linija(Integer.parseInt(stringLinje[j]));
+                }
             }
 
             sc.nextLine();
@@ -85,12 +86,10 @@ public class DN09 {
                 String[] avtobusi = podatki[2].split(";");
                 String[] postaje = podatki[3].split("\\|");
 
-                dn09.linije[i] = new Linija(id);
-                dn09.linije[i].setBarva(barva);
 
                 for (int j=0; j< avtobusi.length; j++){
                     for (int k=0; k<dn09.avtobusi.length; k++){
-                        if (dn09.avtobusi[k] != null && dn09.avtobusi[k].getID() == Integer.parseInt(avtobusi[j])){
+                        if (dn09.linije[i] != null && dn09.avtobusi[k] != null && dn09.avtobusi[k].getID() == Integer.parseInt(avtobusi[j])){
                             dn09.linije[i].dodajAvtobus(dn09.avtobusi[k]);
                         }
                     }
@@ -98,7 +97,7 @@ public class DN09 {
 
                 for (int j=0; j< postaje.length; j++){
                     for (int k=0; k<dn09.postaje.length; k++){
-                        if (dn09.postaje[k] != null && dn09.postaje[k].getID() == Integer.parseInt(postaje[j])){
+                        if (dn09.linije[i] != null && dn09.postaje[k] != null && dn09.postaje[k].getID() == Integer.parseInt(postaje[j])){
                             dn09.linije[i].dodajPostajo(dn09.postaje[k]);
                         }
                     }
