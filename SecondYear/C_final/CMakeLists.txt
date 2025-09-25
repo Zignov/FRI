@@ -9,4 +9,11 @@ add_executable(C_final main.cpp
         03_day/Predavanje/tipi.c
         03_day/Predavanje/sinus.c
         03_day/Naloge/stevke.c
-        03_day/Naloge/StiriVVrsto.c)
+        03_day/Naloge/StiriVVrsto.c
+        04_day/Predavanje/branje.c
+        04_day/Predavanje/prepisi.c
+        04_day/Predavanje/cat.c
+        04_day/Predavanje/toUpper.c
+        04_day/Predavanje/biti.c
+        04_day/Naloge/bitki.c
+        04_day/Naloge/wc.c)
