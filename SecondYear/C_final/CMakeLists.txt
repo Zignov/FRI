@@ -16,4 +16,8 @@ add_executable(C_final main.cpp
         04_day/Predavanje/toUpper.c
         04_day/Predavanje/biti.c
         04_day/Naloge/bitki.c
-        04_day/Naloge/wc.c)
+        04_day/Naloge/wc.c
+        05_day/Predavanje/loto.c
+        05_day/Predavanje/struct.c
+        05_day/Naloge/tocke.c
+        05_day/Naloge/histogram.c)
