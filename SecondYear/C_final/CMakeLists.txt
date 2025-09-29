@@ -20,4 +20,11 @@ add_executable(C_final main.cpp
         05_day/Predavanje/loto.c
         05_day/Predavanje/struct.c
         05_day/Naloge/tocke.c
-        05_day/Naloge/histogram.c)
+        05_day/Naloge/histogram.c
+        06_day/Predavanje/absolutnoNaslavljanje.c
+        06_day/Predavanje/tabela.c
+        06_day/Predavanje/strlen.c
+        06_day/Predavanje/zamenjaj.c
+        06_day/Predavanje/zamenjajTab.c
+        06_day/Naloge/sklad.c
+        06_day/Naloge/skladTestiranje.c)
