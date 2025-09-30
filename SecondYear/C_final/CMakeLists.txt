@@ -27,4 +27,10 @@ add_executable(C_final main.cpp
         06_day/Predavanje/zamenjaj.c
         06_day/Predavanje/zamenjajTab.c
         06_day/Naloge/sklad.c
-        06_day/Naloge/skladTestiranje.c)
+        06_day/Naloge/skladTestiranje.c
+        07_day/Predavanje/realloc.c
+        07_day/Predavanje/branje.c
+        07_day/Predavanje/scr.c
+        07_day/Predavanje/strtok.c
+        07_day/Predavanje/qsort..c
+        07_day/Naloge/imenik.c)

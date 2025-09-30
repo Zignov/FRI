@@ -18,6 +18,7 @@ int main() {
     char vrstica[N];
     int nova = 1;
 
+
     while (!feof(f)) {
         fgets(vrstica, N, f);
 
