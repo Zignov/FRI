@@ -33,4 +33,7 @@ add_executable(C_final main.cpp
         07_day/Predavanje/scr.c
         07_day/Predavanje/strtok.c
         07_day/Predavanje/qsort..c
-        07_day/Naloge/imenik.c)
+        07_day/Naloge/imenik.c
+        08_day/Predavanje/mergeSort.c
+        08_day/Predavanje/tabelaStudentov.cpp
+        08_day/Naloge/seznam.c)
