@@ -1,0 +1,11 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# IntelliJ
+.idea/
+
+# Build output
+out/
+
+# Java bytecode
+*.class
