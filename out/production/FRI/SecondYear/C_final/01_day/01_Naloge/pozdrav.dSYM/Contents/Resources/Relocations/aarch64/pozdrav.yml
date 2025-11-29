@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/zignov/Desktop/FRI/SecondYear/C/01_Naloge/pozdrav'
+relocations:     []
+...

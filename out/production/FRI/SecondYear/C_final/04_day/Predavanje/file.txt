@@ -1,0 +1,4 @@
+to je datoteka za branje
+vuhu
+test
+a deluje?

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="sl">
+    <head>
+        <meta charset="UTF-8" />
+        <title> koordinatni sistem</title>
+
+        <style>
+            canvas {border: 1px solid #ccc; display: block; margin: 12px 0;}
+        </style>
+    </head>
+
+
+    <body>
+        <h3>Platno 512x512</h3>
+        <input type="file" id="fileInput" accept=".json">
+        <canvas id="c" width="512" height="512"></canvas>
+        <button id="c0">Zagotovi zveznost</button>
+        <button id="c1">Zagotovi gladkost</button>
+
+        <script>
+            const W=512, H=512;
+            const canvas = document.getElementById("c");
+            const context = canvas.getContext("2d");
+
+
+            let krivulje = []
+            let tockaPremikanja = null;
+            const HIT_RADIUS = 6;
+
+
+
+            function krog(ctx, x, y, radius = 3){
+                ctx.beginPath();
+                ctx.arc(x,y,radius,0, Math.PI*2);
+                ctx.stroke();
+            }
+
+
+            function kontrolneTocke(krivulja){
+                context.beginPath();
+
+
+                for(let i = 0; i<krivulja.length; i++){
+                    const[x,y] = krivulja[i];
+
+                    krog(context, x, y);
+
+                    if(i === 1|| i === 3){
+                        const[px, py] = krivulja[i-1];
+                        const d = dolzinaDaljice(krivulja[i], krivulja[i-1])    
+                        const koraki = Math.ceil(d/12);
+                        console.log(koraki);
+                        //const koraki = 20
+
+                        context.moveTo(px, py);
+                        for(let s = 1; s<=koraki; s++){
+                            const t = s/koraki;
+                            const sx = px + (x - px) * t;
+                            const sy = py + (y - py) * t;
+
+                            if(s%2 === 0){
+                                context.lineTo(sx,sy);
+                            }
+                            else{
+                                context.moveTo(sx,sy);
+                            }
+                        }
+
+                    }
+                    context.stroke();
+                }
+                
+            }
+
+
+            function interpolacija(P0, P1, t){
+                const x0 = P0[0];
+                const x1 = P1[0];
+                const y0 = P0[1];
+                const y1 = P1[1];
+                return([(1-t) * x0 + t * x1, (1-t) * y0 + t * y1])
+            }
+
+            function deCastljaua(P0, P1, P2, P3, t){
+                const A1 = interpolacija(P0, P1, t);
+                const A2 = interpolacija(P1, P2, t);
+                const A3 = interpolacija(P2, P3, t);
+
+                const B1 = interpolacija(A1, A2, t);
+                const B2 = interpolacija(A2, A3, t);
+
+                const C1 = interpolacija(B1, B2, t);
+                return C1;
+            }
+
+            function dolzinaDaljice(P0, P1){
+                const x0 = P0[0];
+                const x1 = P1[0];
+                const y0 = P0[1];
+                const y1 = P1[1];
+
+                const rez = Math.sqrt((Math.pow(x1-x0, 2)) + Math.pow(y1-y0, 2));
+                return rez;
+            }
+
+            function narisiKrivuljo(ctx, P0, P1, P2, P3){
+                    let dolzina = 0;
+
+                    dolzina += dolzinaDaljice(P0, P1);
+                    dolzina += dolzinaDaljice(P1, P2);
+                    dolzina += dolzinaDaljice(P2, P3);
+
+
+                    const korak = 1/dolzina;
+                    let t = 0;
+
+                    ctx.beginPath();
+                    ctx.moveTo(P0[0], P0[1]);
+                    
+                    for(let i = 0; i<=dolzina; i++){
+                        let koordinate = deCastljaua(P0, P1, P2, P3, t)
+                        ctx.lineTo(koordinate[0], koordinate[1]);
+                        t += korak;
+                    }
+                    ctx.stroke();
+            }
+
+
+            function narisiVse(){
+                context.clearRect(0,0,W,H);
+
+                /*context.beginPath();
+                context.moveTo(krivulja[0].x, krivulja[0].y);
+                context.lineTo(krivulja[1].x, krivulja[1].y);
+                context.stroke();*/
+                
+
+                for(const krivulja of krivulje){
+                    kontrolneTocke(krivulja);
+                    narisiKrivuljo(context, krivulja[0], krivulja[1], krivulja[2], krivulja[3]);
+                }
+            }
+
+
+
+
+            //Zlepki..................
+
+            function sredina(P0, P1){
+                const x0 = P0[0];
+                const x1 = P1[0];
+                const y0 = P0[1];
+                const y1 = P1[1];
+
+                return([(x0+x1)/2 , (y0+y1)/2]);
+
+            }
+
+            let zlepki = [];
+
+            function zveznostC0(zlepek){
+                for(let i = 1; i<zlepek.length; i++){
+                    let krivulja1 = krivulje[zlepek[i-1]];
+                    let krivulja2 = krivulje[zlepek[i]];
+
+                    const novaTocka = sredina(krivulja1[3], krivulja2[0]);
+                    krivulja1[3] = novaTocka;
+                    krivulja2[0] = novaTocka;
+
+                }
+            }
+
+
+            function zveznostC1(zlepek){
+                for(let i = 1; i<zlepek.length; i++){
+                    let krivulja1 = krivulje[zlepek[i-1]];
+                    let krivulja2 = krivulje[zlepek[i]];
+
+                    const novaTocka = sredina(krivulja1[3], krivulja2[0]);
+
+                    krivulja1[3] = novaTocka;
+                    krivulja2[0] = novaTocka;
+
+                    krivulja2[1][0] = (krivulja1[3][0] + (krivulja1[3][0] - krivulja1[2][0]));
+                    krivulja2[1][1] = (krivulja1[3][1] + (krivulja1[3][1] - krivulja1[2][1]));
+
+                }
+            }
+
+
+            document.getElementById("c0").addEventListener("click", () => {
+                for (const zlepek of zlepki){
+                    //console.log(zlepek)
+                    zveznostC0(zlepek);
+                }
+                narisiVse();
+            })
+
+            document.getElementById("c1").addEventListener("click", () => {
+                for (const zlepek of zlepki){
+                    //console.log(zlepek)
+                    zveznostC1(zlepek);
+                }
+                narisiVse();
+            })
+
+
+
+
+            //Premikanje...........
+
+            function getMousePos(evt){
+                const space = canvas.getBoundingClientRect();
+                
+                let x = evt.clientX - space.left;
+                let y = evt.clientY - space.top;
+            
+                return{ x,y }
+            }
+            
+
+            canvas.addEventListener("mousedown", (evt) => {
+                const { x,y } = getMousePos(evt);
+
+                tockaPremikanja = null;
+
+                for(let i = 0; i<krivulje.length; i++){
+                    const krivulja = krivulje[i];
+
+                    for(let j = 0; j<krivulja.length; j++){
+                        const [px, py] = krivulja[j]
+                        const razdalja = dolzinaDaljice([x,y], [px, py]);
+
+                        if (razdalja <= HIT_RADIUS){
+                            tockaPremikanja = {iKrivulja: i, iTocka: j};
+                            return;
+                        }
+
+
+
+                    }
+                }
+            })
+
+
+            canvas.addEventListener("mousemove", (evt) => {
+                if(!tockaPremikanja){
+                    return;
+                }
+
+                const { x,y } = getMousePos(evt);
+                const { iKrivulja, iTocka } = tockaPremikanja;
+
+                krivulje[iKrivulja][iTocka][0] = x;
+                krivulje[iKrivulja][iTocka][1] = y;
+
+                narisiVse();
+            })
+
+            canvas.addEventListener("mouseup", () => {
+                tockaPremikanja = null;
+            });
+            
+            canvas.addEventListener("mouseleave", () => {
+                tockaPremikanja = null;
+            });
+
+
+            function main(data){
+                krivulje = data.krivulje;
+                zlepki = data.zlepki;
+                console.log(zlepki);
+
+
+                narisiVse();
+            }
+
+
+
+
+
+            const fileInput = document.getElementById("fileInput");
+
+            fileInput.addEventListener("change", () => {
+                const file = fileInput.files[0];
+                if(!file) return;
+
+                const reader = new FileReader();
+
+                reader.onload = () => {
+                    const data = JSON.parse(reader.result);
+                    main(data);
+                }
+
+                reader.readAsText(file);
+            })
+
+        </script>
+    </body>
+</html>
