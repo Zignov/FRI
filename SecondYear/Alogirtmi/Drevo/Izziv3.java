@@ -1,5 +1,3 @@
-import java.awt.*;
-
 public class Izziv3 {
 
 
@@ -12,19 +10,23 @@ public class Izziv3 {
         int[] y;
         int trenutniX = 0;
 
+        char[] oznake;
+
         public Drevo(int n) {
             this.n = n;
-            this.visina = izracunVisine(n);
+            this.visina = (int)Math.floor(Math.log(n+1)/Math.log(2));
 
             x = new int[n];
             y = new int[n];
 
+            oznake = new char[n];
+            for(int i=0; i<n; i++){
+                oznake[i] = (char)(i+'A');
+            }
+
             postavi(0, 0);
         }
 
-        private int izracunVisine(int n) {
-            return (int)Math.floor(Math.log(n+1)/Math.log(2));
-        }
 
         private void postavi(int i, int nivo){
 
@@ -44,25 +46,25 @@ public class Izziv3 {
                 postavi(desni, nivo+1);
             }
         }
-    }
 
+    }
 
     public static class Izris {
 
         int n;
         int visina;
-        double radi = 0.25;
+        double radi;
 
         public void narisiVozlisce(int i, Drevo drevo){
-            StdDraw.setPenColor(Color.lightGray);
+            StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
             StdDraw.filledCircle(drevo.x[i], drevo.y[i], radi);
-            StdDraw.setPenColor(Color.black);
-            StdDraw.text(drevo.x[i], drevo.y[i], Integer.toString(i + 1));
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.text(drevo.x[i], drevo.y[i], Character.toString(drevo.oznake[i]));
         }
 
         public void narisiPovezave(Drevo drevo){
-            StdDraw.setPenColor(Color.black);
-            for (int i = n-1; i>=0; i--){
+            StdDraw.setPenColor(StdDraw.BLACK);
+            for (int i = 1; i<n; i++){
                 StdDraw.line(drevo.x[i], drevo.y[i], drevo.x[(i-1)/2], drevo.y[(i-1)/2]);
             }
         }
@@ -70,12 +72,10 @@ public class Izziv3 {
         public Izris(Drevo drevo){
             this.n = drevo.n;
             this.visina = drevo.visina;
+            this.radi = 1.0/ (this.visina)+0.02*visina;
 
             int sirinaCanvasa = Math.max(200, n*50);
             int visinaCanvasa = Math.max(200, visina*50);
-
-
-
 
             //StdDraw.setCanvasSize(150*(n+2), 60*(visina+2));
             StdDraw.setCanvasSize(sirinaCanvasa, visinaCanvasa);
@@ -85,32 +85,74 @@ public class Izziv3 {
             StdDraw.enableDoubleBuffering();
 
 
-            izrisNivojski(drevo);
+            //izrisiNivjosko(drevo);
+            //izrisiPremi(drevo);
+            //izrisiNivjosko(drevo);
+            izrisiVmesni(drevo);
             StdDraw.show();
         }
 
 
 
-        private void izrisNivojski(Drevo drevo){
+        private void izrisiNivjosko(Drevo drevo){
             StdDraw.clear();
             narisiPovezave(drevo);
-            for(int i = 0; i<n; i++){
+
+            for(int i=0; i<drevo.n; i++){
                 narisiVozlisce(i, drevo);
             }
         }
 
 
 
+        private void obhodPremi(int i, Drevo drevo){
+            if(i>=n) return;
+
+            narisiVozlisce(i, drevo);
+            obhodPremi(2*i+1, drevo);
+            obhodPremi(2*i+2, drevo);
+        }
+        private void izrisiPremi(Drevo drevo){
+            StdDraw.clear();
+            narisiPovezave(drevo);
+            obhodPremi(0, drevo);
+        }
+
+
+        private void obhodVmesni(int i, Drevo drevo){
+            if(i>=n) return;
+            obhodVmesni(2*i+1, drevo);
+            narisiVozlisce(i, drevo);
+            obhodVmesni(2*i+2, drevo);
+        }
+        private void izrisiVmesni(Drevo drevo){
+            StdDraw.clear();
+            narisiPovezave(drevo);
+            obhodVmesni(0, drevo);
+        }
+
+
+        private void obhodObratni(int i, Drevo drevo){
+            if(i>=n) return;
+            obhodObratni(2*i+1, drevo);
+            obhodObratni(2*i+2, drevo);
+            narisiVozlisce(i, drevo);
+        }
+        private void izrisiObratni(Drevo drevo){
+            StdDraw.clear();
+            narisiPovezave(drevo);
+            obhodObratni(0, drevo);
+        }
     }
 
-
-
     public static void main(String[] args) {
-        int n = 37;
+        if(args.length != 1){
+            System.out.println("Vnesite velikost drevesa");
+            return;
+        }
+        int n = Integer.parseInt(args[0]);
 
         Drevo drevo = new Drevo(n);
         Izris izris = new Izris(drevo);
     }
-
-
 }
