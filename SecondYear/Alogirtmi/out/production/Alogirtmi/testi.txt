@@ -1,0 +1,4 @@
+12 13 1 1 == then echo ?+ echo
+133 1 2 == then dup 7 ?* else ?/ 0 print
+55 12 -66 15 1 0 then ?echo then ?echo then then ?echo else ?echo ?10 ?12 else ?9 ?7 0 print
+else 17 ?6 ?5 ?25 else else ?* 0 print
