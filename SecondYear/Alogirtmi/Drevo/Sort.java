@@ -63,27 +63,6 @@ public class Sort {
 
             System.out.println(sb.toString());
         }
-
-        static void visualizeQuick(Array arr, int left, int right, int pivot){
-
-            StringBuilder sb = new StringBuilder();
-
-            for(int i = left; i <= right; i++){
-                if(i==pivot){
-                    if (i>left) sb.append("| ");
-                    sb.append(arr.get(i));
-                    if (i<right) sb.append(" |");
-                }
-                else{
-                    sb.append(arr.get(i));
-                }
-                if(i<right){
-                    sb.append(' ');
-                }
-            }
-
-            System.out.println(sb.toString());
-        }
     }
 
 
@@ -236,7 +215,6 @@ public class Sort {
 
 
     public static void heap(Array arr, boolean asc, boolean trace){
-        Utils.reset();
         int size = arr.size();
         Utils.reset();
 
@@ -253,177 +231,12 @@ public class Sort {
             Utils.swap(arr, 0, zadnja);
 
             heapify(arr, zadnja, 0, asc);
+
+            if(trace) Utils.visualize(arr, zadnja);
         }
     }
 
 
-    //Z zlivanjem
-
-    public static Array combine (Array left, Array right, boolean asc, boolean trace){
-        Array result = new Array();
-
-        int l = 0;
-        int r = 0;
-
-        int sizeL = left.size();
-        int sizeR = right.size();
-
-        while(l<sizeL && r<sizeR){
-
-            Utils.plusPrimerjav();
-            Utils.plusPrimerjav();
-
-            int a = left.get(l);
-            int b = right.get(r);
-
-            if(asc){
-                if(a<=b){
-                    result.add(a);
-                    l++;
-                }
-                else{
-                    result.add(b);
-                    r++;
-                }
-
-            }
-            else{
-                if(a>=b){
-                    result.add(a);
-                    l++;
-                }
-                else{
-                    result.add(b);
-                    r++;
-                }
-            }
-            Utils.plusPrimerjav();
-            Utils.plusPremik();
-        }
-
-        while (l<sizeL){
-            result.add(left.get(l));
-            Utils.plusPremik();
-            l++;
-        }
-
-        while (r<sizeR){
-            result.add(right.get(r));
-            Utils.plusPremik();
-            r++;
-        }
-
-        //if(trace) Utils.visualize(result, result.size());
-
-        return result;
-    }
-
-    public static Array subArr(Array arr, int start, int end){
-        Array result = new Array();
-
-        for(int i = start; i<end; i++){
-            result.add(arr.get(i));
-        }
-
-        return result;
-    }
-
-
-    public static Array merge(Array arr, boolean asc, boolean trace){
-        int size = arr.size();
-
-        if(size<=1){
-            return arr;
-        }
-
-        int middle = (size + 1) / 2;
-
-        if(trace) Utils.visualize(arr, middle);
-
-        Array left = subArr(arr, 0, middle);
-        Array right = subArr(arr, middle, size);
-
-        left = merge(left, asc, trace);
-        right = merge(right, asc, trace);
-
-        Array result = combine(left, right, asc, trace);
-        if (trace) Utils.visualize(result, -1);
-        return result;
-    }
-
-
-
-    //quicksort
-    public static int partition(Array arr, int left, int right, boolean asc, boolean trace) {
-        int p = arr.get(left);
-        int l = left, r = right + 1;
-
-
-        while (true) {
-            if (asc) {
-                do {
-                    l++;
-                }
-                while (l < right && arr.get(l) < p );
-
-                do {
-                    r--;
-                }
-                while (arr.get(r) > p);
-
-
-                if (l >= r) {
-                    break;
-                }
-
-                Utils.swap(arr, l, r);
-            } else {
-                do {
-                    l++;
-                }
-                while (arr.get(l) > p && l < right);
-
-                do {
-                    r--;
-                }
-                while (arr.get(r) < p);
-
-
-                if (l >= r) {
-                    break;
-                }
-
-                Utils.swap(arr, l, r);
-            }
-        }
-        Utils.swap(arr, left, r);
-
-        return r;
-    }
-
-        public static void quick(Array arr, boolean asc, boolean trace){
-            quick(arr, 0, arr.size()-1, asc, trace);
-
-            if(trace){
-                Utils.visualize(arr, -1);
-            }
-        }
-
-
-        public static void quick(Array arr,int left, int right, boolean asc, boolean trace){
-            if(left>=right){
-                return;
-            }
-
-            int r = partition(arr, left, right, asc, trace);
-
-            if(trace) Utils.visualizeQuick(arr, left, right, r);
-
-
-            quick(arr, left, r-1, asc, trace);
-            quick(arr, r+1, right, asc, trace);
-
-        }
 
 
 
@@ -460,11 +273,10 @@ public class Sort {
 
 
 
-
         Array arr = readInput();
         System.out.println();
         //System.out.println(arr.toString());
-        Sort.quick(arr, asc, trace);
+        Sort.heap(arr, asc, trace);
         //System.out.println(arr.toString());
     }
 }
@@ -504,11 +316,6 @@ class Array{
     public void set(int index, int j){
         data[index] = j;
     }
-
-
-
-
-
 
 
     @Override
