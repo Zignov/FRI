@@ -427,6 +427,84 @@ public class Sort {
 
 
 
+        //korensko urejanje
+
+
+        public static void radix(Array arr, boolean asc, boolean trace){
+
+            int size = arr.size();
+            int max = 0;
+            Utils.reset();
+
+            for(int i = 0; i<size; i++){
+                if(arr.get(i) > max){
+                    max = arr.get(i);
+                }
+                Utils.plusPrimerjav();
+            }
+
+            for(int exp = 1; max/exp > 0; exp *= 10){
+                sortByDigit(arr, exp, asc);
+
+                if(trace) Utils.visualize(arr, -1);
+            }
+        }
+
+        public static void sortByDigit(Array arr, int exp, boolean asc){
+            int size = arr.size();
+
+            int [] out = new int[size];
+            int [] count = new int[10];
+
+            for(int i = 0; i<size; i++){
+                int digit = (arr.get(i) / exp) % 10;
+                count[digit]++;
+            }
+
+            for(int i = 1; i < 10; i++){
+                count[i] += count[i-1];
+            }
+
+
+            if(asc) {
+                for (int i = size - 1; i >= 0; i--) {
+                    int val = arr.get(i);
+
+                    int digit = (val / exp) % 10;
+
+                    out[count[digit] - 1] = val;
+                    count[digit]--;
+                }
+            }
+            else{
+                for (int i = 0; i <size; i++) {
+                    int val = arr.get(i);
+
+                    int digit = (val / exp) % 10;
+
+                    out[size - count[digit]] = val;
+                    count[digit]--;
+                }
+            }
+
+
+            for (int i = 0; i < size; i++) {
+                arr.set(i, out[i]);
+                Utils.plusPremik();
+            }
+        }
+
+
+        //korensko
+        public static void bucket(Array arr, boolean asc, boolean trace){
+
+
+
+
+
+        }
+
+
 
     public static void main(String[] args){
 
@@ -464,7 +542,7 @@ public class Sort {
         Array arr = readInput();
         System.out.println();
         //System.out.println(arr.toString());
-        Sort.quick(arr, asc, trace);
+        Sort.radix(arr, asc, trace);
         //System.out.println(arr.toString());
     }
 }
