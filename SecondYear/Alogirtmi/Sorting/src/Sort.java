@@ -3,16 +3,20 @@ import java.util.Scanner;
 public class Sort {
 
     //branje
-    public static Array readInput(){
-        Scanner sc = new Scanner(System.in);
+    public static Array readInput(Scanner sc){
+        //Scanner sc = new Scanner(System.in);
         Array arr = new Array();
 
-        String branje = sc.nextLine();
-        String[] deli = branje.trim().split("\\s+");
+        String line = "";
+        while (line.isBlank() && sc.hasNextLine()) {
+            line = sc.nextLine();
+        }
 
+        if (line.isBlank()) return arr;
 
-        for (int i = 0; i<deli.length; i++){
-            arr.add(Integer.parseInt(deli[i]));
+        String[] parts = line.trim().split("\\s+");
+        for (String p : parts) {
+            arr.add(Integer.parseInt(p));
         }
 
         return arr;
@@ -65,27 +69,43 @@ public class Sort {
         }
 
         static void visualizeQuick(Array arr, int left, int right, int pivot){
-
             StringBuilder sb = new StringBuilder();
 
             for(int i = left; i <= right; i++){
-                if(i==pivot){
-                    if (i>left) sb.append("| ");
-                    sb.append(arr.get(i));
-                    if (i<right) sb.append(" |");
-                }
-                else{
+                if(i == pivot){
+                    sb.append("| ").append(arr.get(i)).append(" |");
+                } else {
                     sb.append(arr.get(i));
                 }
-                if(i<right){
-                    sb.append(' ');
-                }
+                if(i < right) sb.append(' ');
             }
 
             System.out.println(sb.toString());
         }
     }
 
+
+    private static Array copyArray(Array a){
+        Array b = new Array();
+        for(int i = 0; i<a.size(); i++){
+            b.add(a.get(i));
+        }
+        return b;
+    }
+
+
+    private static void resverse(Array a){
+        int i = 0;
+        int size = a.size()-1;
+
+        while(i<size){
+            int tmp = a.get(i);
+            a.set(i, a.get(size));
+            a.set(size, tmp);
+            i++;
+            size--;
+        }
+    }
 
     //vstavljanje
     public static void insertion(Array arr, boolean asc, boolean trace){
@@ -98,29 +118,33 @@ public class Sort {
 
         for(int i = 1; i < velikost; i++){
             int a = arr.get(i);
+            Utils.plusPremik();
             int j = i;
 
             if(asc) {
-                while ((j > 0) && (arr.get(j - 1) > a)) {
-                    arr.set(j, arr.get(j - 1));
+                while (j>0) {
+                    Utils.plusPrimerjav();
+                    if (arr.get(j-1) <= a) break;
+
+                    //Utils.plusPrimerjav();
+                    //int prev = arr.get(j-1);
+
+                    arr.set(j, arr.get(j-1));
                     Utils.plusPremik();
+                    //if (prev <= a) break;
                     j--;
-
-                    Utils.plusPrimerjav();
-                    Utils.plusPrimerjav();
-
                 }
             }
 
             else{
-                while ((j > 0) && (arr.get(j - 1) < a)) {
-                    arr.set(j, arr.get(j - 1));
-                    Utils.plusPremik();
+                while (j>0) {
+                    Utils.plusPrimerjav();
+                    if (arr.get(j-1) >= a) break;
+
+                    arr.set(j, arr.get(j-1));
+                    Utils.plusPrimerjav();
+
                     j--;
-
-                    Utils.plusPrimerjav();
-                    Utils.plusPrimerjav();
-
                 }
             }
 
@@ -154,10 +178,9 @@ public class Sort {
                 Utils.plusPrimerjav();
             }
 
-            if(m != i) {
-                Utils.plusPrimerjav();
-                Utils.swap(arr, i, m);
-            }
+
+            Utils.swap(arr, i, m);
+
 
             if(trace) Utils.visualize(arr, i+1);
         }
@@ -168,13 +191,13 @@ public class Sort {
     public static void bubble(Array arr, boolean asc, boolean trace){
         int velikost = arr.size();
         Utils.reset();
-        int pipe = -1;
+        //int pipe = -1;
 
-        if (trace) Utils.visualize(arr, pipe);
+        if (trace) Utils.visualize(arr, -1);
 
-        for(int i = 0; i<=velikost-2; i++){
+        for(int i = 0; i<=velikost-2; ){
             boolean zamenjano = false;
-
+            int zadnjaZamenjava = i;
 
 
             for(int j = velikost-1; j > i; j--){
@@ -188,16 +211,42 @@ public class Sort {
                         (asc && left>right) || (!asc && left<right);
 
                 if(neUrejeno){
-                    pipe = j;
+
                     Utils.swap(arr, j-1, j);
                     zamenjano = true;
+                    zadnjaZamenjava = j-1;
                 }
             }
 
-            if(!zamenjano) break;
+            i = zadnjaZamenjava + 1;
 
-            if(trace) Utils.visualize(arr, pipe);
+
+            if(!zamenjano) {
+                if(trace && asc) Utils.visualize(arr, velikost-1);
+                else if (trace) {
+                    Utils.visualize(arr, i);
+                }
+                break;
+            }
+            else{
+                if(trace) Utils.visualize(arr, i);
+            }
+
+
+            /*if(trace) {
+                if(asc){
+                    Utils.visualize(arr, i+2);
+                }
+                else{
+                    Utils.visualize(arr, i+1);
+                }
+            }
+
+            if(trace && asc && i == velikost -2){
+                Utils.visualize(arr,velikost-1);
+            }*/
         }
+
     }
 
 
@@ -223,7 +272,7 @@ public class Sort {
                 Utils.plusPrimerjav();
 
                 if((asc && arr.get(right) > arr.get(best)) ||
-                        (!asc && arr.get(left) < arr.get(best))){
+                        (!asc && arr.get(right) < arr.get(best))){
                     best = right;
                 }
             }
@@ -238,7 +287,6 @@ public class Sort {
     public static void heap(Array arr, boolean asc, boolean trace){
         Utils.reset();
         int size = arr.size();
-        Utils.reset();
 
         if (trace) Utils.visualize(arr,-1);
 
@@ -253,6 +301,8 @@ public class Sort {
             Utils.swap(arr, 0, zadnja);
 
             heapify(arr, zadnja, 0, asc);
+
+            if(trace) Utils.visualize(arr, zadnja);
         }
     }
 
@@ -270,11 +320,12 @@ public class Sort {
 
         while(l<sizeL && r<sizeR){
 
-            Utils.plusPrimerjav();
-            Utils.plusPrimerjav();
 
             int a = left.get(l);
             int b = right.get(r);
+
+            Utils.plusPrimerjav();
+
 
             if(asc){
                 if(a<=b){
@@ -297,7 +348,6 @@ public class Sort {
                     r++;
                 }
             }
-            Utils.plusPrimerjav();
             Utils.plusPremik();
         }
 
@@ -323,6 +373,7 @@ public class Sort {
 
         for(int i = start; i<end; i++){
             result.add(arr.get(i));
+            Utils.plusPremik();
         }
 
         return result;
@@ -356,57 +407,57 @@ public class Sort {
     //quicksort
     public static int partition(Array arr, int left, int right, boolean asc, boolean trace) {
         int p = arr.get(left);
+        Utils.plusPremik();
         int l = left, r = right + 1;
-
 
         while (true) {
             if (asc) {
                 do {
                     l++;
-                }
-                while (l < right && arr.get(l) < p );
+                    if(l<=right) Utils.plusPrimerjav();
+                } while (l <= right && arr.get(l) < p);
 
                 do {
                     r--;
-                }
-                while (arr.get(r) > p);
+                    //if(r==left) break;
+                    Utils.plusPrimerjav();
+                } while (arr.get(r) > p);
 
-
-                if (l >= r) {
-                    break;
-                }
-
-                Utils.swap(arr, l, r);
             } else {
                 do {
                     l++;
-                }
-                while (arr.get(l) > p && l < right);
+                    if(l <= right) Utils.plusPrimerjav();
+                } while (l <= right && arr.get(l) > p);
 
                 do {
                     r--;
-                }
-                while (arr.get(r) < p);
-
-
-                if (l >= r) {
-                    break;
-                }
-
-                Utils.swap(arr, l, r);
+                    //if(r==left) break;
+                    Utils.plusPrimerjav();
+                } while (arr.get(r) < p);
             }
-        }
-        Utils.swap(arr, left, r);
 
+            //Utils.plusPrimerjav();
+            if (l >= r) break;
+            Utils.swap(arr, l, r);
+        }
+
+        Utils.swap(arr, left, r);
         return r;
     }
 
         public static void quick(Array arr, boolean asc, boolean trace){
+            Utils.reset();
+
+            if(trace){
+                Utils.visualize(arr, -1);
+            }
+
             quick(arr, 0, arr.size()-1, asc, trace);
 
             if(trace){
                 Utils.visualize(arr, -1);
             }
+
         }
 
 
@@ -436,12 +487,17 @@ public class Sort {
             int max = 0;
             Utils.reset();
 
+            //if(trace) Utils.visualize(arr, -1);
+
             for(int i = 0; i<size; i++){
                 if(arr.get(i) > max){
                     max = arr.get(i);
                 }
-                Utils.plusPrimerjav();
+                //Utils.plusPrimerjav();
             }
+
+            if(trace)Utils.visualize(arr, -1);
+
 
             for(int exp = 1; max/exp > 0; exp *= 10){
                 sortByDigit(arr, exp, asc);
@@ -459,6 +515,7 @@ public class Sort {
             for(int i = 0; i<size; i++){
                 int digit = (arr.get(i) / exp) % 10;
                 count[digit]++;
+                Utils.plusPrimerjav();
             }
 
             for(int i = 1; i < 10; i++){
@@ -474,6 +531,8 @@ public class Sort {
 
                     out[count[digit] - 1] = val;
                     count[digit]--;
+                    Utils.plusPrimerjav();
+                    Utils.plusPremik();
                 }
             }
             else{
@@ -484,6 +543,8 @@ public class Sort {
 
                     out[size - count[digit]] = val;
                     count[digit]--;
+                    Utils.plusPrimerjav();
+                    Utils.plusPremik();
                 }
             }
 
@@ -495,15 +556,52 @@ public class Sort {
         }
 
 
+
+
+
         //korensko
-        public static void bucket(Array arr, boolean asc, boolean trace){
+        //public static void bucket(Array arr, boolean asc, boolean trace){
 
 
 
 
 
+        //}
+
+
+    private static String stetje(String mode, Array arr, boolean asc){
+        Utils.reset();
+
+        switch (mode) {
+            case "insert":
+                insertion(arr, asc, false);
+                break;
+            case "select":
+            case "selection":
+                selection(arr, asc, false);
+                break;
+            case "bubble":
+                bubble(arr, asc, false);
+                break;
+            case "heap":
+                heap(arr, asc, false);
+                break;
+            case "merge":
+                arr = merge(arr, asc, false);
+                break;
+            case "quick":
+                quick(arr, asc, false);
+                break;
+            case "radix":
+                radix(arr, asc, false);
+                break;
+            default:
+                System.out.println("Error");
+                System.exit(0);
         }
 
+        return Utils.stevecPremikov + " " + Utils.stevecPrimerjav;
+    }
 
 
     public static void main(String[] args){
@@ -513,6 +611,7 @@ public class Sort {
         Scanner sc = new Scanner(System.in);
 
         String[] cmds = sc.nextLine().trim().split("\\s+");
+        Array arr = readInput(sc);
         String mode = cmds [1];
 
         if (cmds[0].equals("trace")){
@@ -537,13 +636,83 @@ public class Sort {
         }
 
 
+        if(count){
+            Array a1 = copyArray(arr);
+            String s1 = stetje(mode, a1, asc);
+
+            Array a2;
+            Array a3;
+
+            if(mode.equals("merge")){
+                Array sorted = merge(copyArray(arr), asc, false);
+                a2 = copyArray(sorted);
+                a3 = copyArray(sorted);
+            }
+            else{
+                a2 = copyArray(a1);
+                a3 = copyArray(a1);
+            }
+
+            String s2 = stetje(mode, a2, asc);
+            resverse(a3);
+
+            String s3 = stetje(mode, a3, asc);
+
+            System.out.println(s1 + " | " + s2 + " | " + s3);
+            return;
+        }
 
 
-        Array arr = readInput();
-        System.out.println();
+
+        //System.out.printf("Trace: \s, mode: \s, asc: \s", trace, mode, asc);
+
+        switch (mode) {
+
+            case "insert":
+                insertion(arr, asc, trace);
+                break;
+
+            case "select":
+                selection(arr, asc, trace);
+                break;
+
+            case "bubble":
+                bubble(arr, asc, trace);
+                break;
+
+            case "heap":
+                heap(arr, asc, trace);
+                break;
+
+            case "merge":
+                if(trace) Utils.visualize(arr, -1);
+                arr = merge(arr, asc, trace); // merge returns a new Array
+                break;
+
+            case "quick":
+                quick(arr, asc, trace);
+                break;
+
+            case "radix":
+                radix(arr, asc, trace);
+                break;
+
+            case "bucket":
+                //bucket(arr, asc, trace);
+                break;
+
+            default:
+                System.out.println("Error");
+                System.exit(0);
+        }
+
+
         //System.out.println(arr.toString());
-        Sort.radix(arr, asc, trace);
+        //Sort.radix(arr, asc, trace);
         //System.out.println(arr.toString());
+
+
+
     }
 }
 
