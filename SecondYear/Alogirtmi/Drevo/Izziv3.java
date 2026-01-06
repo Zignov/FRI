@@ -87,8 +87,8 @@ public class Izziv3 {
 
             //izrisiNivjosko(drevo);
             //izrisiPremi(drevo);
-            //izrisiNivjosko(drevo);
-            izrisiVmesni(drevo);
+            izrisiNivjosko(drevo);
+            //izrisiVmesni(drevo);
             StdDraw.show();
         }
 
