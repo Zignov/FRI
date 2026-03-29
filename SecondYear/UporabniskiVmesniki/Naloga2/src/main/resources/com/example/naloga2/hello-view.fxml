@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.naloga2.HelloController">
+   <top>
+      <VBox prefHeight="71.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu text="_Datoteka">
+                  <items>
+                        <MenuItem onAction="#odpriCB" text="_Odpri" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem onAction="#shraniCB" text="_Shrani" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                    <MenuItem onAction="#handleExit" text="_Izhod" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                  </items>
+                </Menu>
+                <Menu text="_Uredi">
+                  <items>
+                    <MenuItem onAction="#handleClear" text="_Pobrisi" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                  </items>
+                </Menu>
+                <Menu text="_Pomoc">
+                  <items>
+                    <MenuItem onAction="#handleAuthor" text="_Avtor" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <ToolBar prefHeight="40.0" prefWidth="200.0">
+              <items>
+                <Button mnemonicParsing="false" onAction="#odpriCB" text="Odpri" />
+                  <Button mnemonicParsing="false" onAction="#shraniCB" text="Shrani" />
+                  <Button mnemonicParsing="false" onAction="#handleExit" text="Izhod" />
+                  <Button mnemonicParsing="false" onAction="#handleClear" text="Izbrisi" />
+              </items>
+            </ToolBar>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <Accordion BorderPane.alignment="CENTER">
+        <panes>
+          <TitledPane animated="false" prefHeight="200.0" prefWidth="600.0" text="Pretvornik">
+              <content>
+                  <GridPane alignment="CENTER" hgap="20.0" vgap="15.0">
+                      <padding>
+                          <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                      </padding>
+
+                      <columnConstraints>
+                          <ColumnConstraints halignment="CENTER" hgrow="NEVER" />
+                          <ColumnConstraints halignment="CENTER" hgrow="NEVER" />
+                      </columnConstraints>
+
+                      <rowConstraints>
+                          <RowConstraints vgrow="NEVER" />
+                          <RowConstraints vgrow="NEVER" />
+                      </rowConstraints>
+
+                      <children>
+                          <TextField fx:id="displayField" editable="false" prefHeight="40.0" prefWidth="420.0" GridPane.columnSpan="2" />
+
+                          <GridPane alignment="CENTER" hgap="8.0" vgap="8.0" GridPane.rowIndex="1">
+                              <columnConstraints>
+                                  <ColumnConstraints minWidth="60.0" prefWidth="60.0" />
+                                  <ColumnConstraints minWidth="60.0" prefWidth="60.0" />
+                                  <ColumnConstraints minWidth="60.0" prefWidth="60.0" />
+                                  <ColumnConstraints minWidth="90.0" prefWidth="90.0" />
+                              </columnConstraints>
+
+                              <rowConstraints>
+                                  <RowConstraints minHeight="45.0" prefHeight="45.0" />
+                                  <RowConstraints minHeight="45.0" prefHeight="45.0" />
+                                  <RowConstraints minHeight="45.0" prefHeight="45.0" />
+                                  <RowConstraints minHeight="45.0" prefHeight="45.0" />
+                              </rowConstraints>
+
+                              <children>
+                                  <Button onAction="#nextDigit" prefHeight="45.0" prefWidth="60.0" text="7" />
+                                  <Button onAction="#nextDigit" prefHeight="45.0" prefWidth="60.0" text="8" GridPane.columnIndex="1" />
+                                  <Button onAction="#nextDigit" prefHeight="45.0" prefWidth="60.0" text="9" GridPane.columnIndex="2" />
+                                  <Button onAction="#handleBack" prefHeight="45.0" prefWidth="90.0" text="Back" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                  <Button onAction="#handleDel" prefHeight="45.0" prefWidth="90.0" text="C" GridPane.columnIndex="3" />
+
+                                  <Button onAction="#nextDigit" prefHeight="45.0" prefWidth="60.0" text="4" GridPane.rowIndex="1" />
+                                  <Button onAction="#nextDigit" prefHeight="45.0" prefWidth="60.0" text="5" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                  <Button onAction="#nextDigit" prefHeight="45.0" prefWidth="60.0" text="6" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
+                                  <Button onAction="#nextDigit" prefHeight="45.0" prefWidth="60.0" text="1" GridPane.rowIndex="2" />
+                                  <Button onAction="#nextDigit" prefHeight="45.0" prefWidth="60.0" text="2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                  <Button onAction="#nextDigit" prefHeight="45.0" prefWidth="60.0" text="3" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+
+                                  <Button onAction="#nextDigit" prefHeight="45.0" prefWidth="128.0" text="0" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                                  <Button onAction="#handleDecimalPoint" prefHeight="45.0" prefWidth="60.0" text="." GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                  <Button onAction="#handleConversion" prefHeight="45.0" prefWidth="90.0" text="Pretvori" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                              </children>
+                          </GridPane>
+
+                          <VBox alignment="CENTER" spacing="12.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <children>
+                                  <ComboBox fx:id="categoryCombo" prefWidth="160.0" />
+                                  <ComboBox fx:id="fromUnitCombo" prefWidth="160.0" />
+                                  <ComboBox fx:id="toUnitCombo" prefWidth="160.0" />
+                              </children>
+                          </VBox>
+                      </children>
+                  </GridPane>
+              </content></TitledPane>
+          <TitledPane animated="false" text="Zgodovina">
+               <content>
+                  <TextArea fx:id="historyArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
+               </content>
+          </TitledPane>
+          <TitledPane animated="false" text="Dnevnik">
+               <content>
+                  <TextArea fx:id="logArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
+               </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
+   </center>
+   <bottom>
+      <Label fx:id="statusLabel" text="Status" BorderPane.alignment="TOP_LEFT">
+         <padding>
+            <Insets left="15.0" />
+         </padding></Label>
+   </bottom>
+</BorderPane>
