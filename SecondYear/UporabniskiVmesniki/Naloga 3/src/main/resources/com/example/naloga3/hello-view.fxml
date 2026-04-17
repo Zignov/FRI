@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="760.0" prefWidth="1100.0" style="-fx-background-color:#f4f6f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.naloga3.HelloController">
+
+    <!-- TOP -->
+    <top>
+        <VBox spacing="6" BorderPane.alignment="CENTER_LEFT">
+            <children>
+                <Label style="-fx-font-size:28px; -fx-font-weight:bold;" text="Po ceni z nami" />
+
+                <Label style="-fx-font-size:15px; -fx-text-fill:#666666;" text="Rezervacija počitnic" />
+            </children>
+
+            <padding>
+                <Insets bottom="16" left="20" right="20" top="20" />
+            </padding>
+        </VBox>
+    </top>
+
+    <!-- CENTER -->
+    <center>
+        <ScrollPane fitToWidth="true" pannable="true">
+            <content>
+
+                <VBox fillWidth="true" spacing="16">
+                    <padding>
+                        <Insets bottom="0" left="20" right="20" top="0" />
+                    </padding>
+
+                    <children>
+
+                        <!-- FIRST ROW -->
+                        <HBox spacing="16">
+
+                            <children>
+
+                                <!-- DESTINATION -->
+                                <VBox maxWidth="1.7976931348623157E308" spacing="10" style="-fx-background-color:white; -fx-border-color:#D8DDE3; -fx-background-radius:8; -fx-border-radius:8; -fx-padding:16;">
+
+                                    <children>
+
+                                        <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Destinacija" />
+
+                                        <Separator />
+
+                                        <GridPane hgap="12" vgap="8">
+
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                                            </columnConstraints>
+
+                                            <children>
+
+                                                <Label text="Država" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+
+                                                <Label text="Kraj nastanitve" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                                <ComboBox fx:id="drzavaCombo" maxWidth="220" minWidth="220" prefWidth="220" promptText="Izberi državo" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+                                                <TextField fx:id="krajNastanitveField" maxWidth="1.7976931348623157E308" promptText="Vnesi kraj" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                            </children>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
+                                        </GridPane>
+
+                                    </children>
+
+                                    <HBox.hgrow>
+                                        <Priority fx:constant="ALWAYS" />
+                                    </HBox.hgrow>
+
+                                </VBox>
+
+                                <!-- DATES -->
+                                <VBox maxWidth="1.7976931348623157E308" spacing="10" style="-fx-background-color:white; -fx-border-color:#D8DDE3; -fx-background-radius:8; -fx-border-radius:8; -fx-padding:16;">
+
+                                    <children>
+
+                                        <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Datumi potovanja" />
+
+                                        <Separator />
+
+                                        <GridPane hgap="12" vgap="8">
+
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                                            </columnConstraints>
+
+                                            <children>
+
+                                                <Label text="Datum odhoda" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+
+                                                <Label text="Datum vrnitve" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                                <DatePicker fx:id="datumOdhodaPicker" maxWidth="1.7976931348623157E308" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+                                                <DatePicker fx:id="datumVrnitvePicker" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                            </children>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
+                                        </GridPane>
+
+                                    </children>
+
+                                    <HBox.hgrow>
+                                        <Priority fx:constant="ALWAYS" />
+                                    </HBox.hgrow>
+
+                                </VBox>
+
+                                <!-- TRANSPORT -->
+                                <VBox prefWidth="220" spacing="10" style="-fx-background-color:white; -fx-border-color:#D8DDE3; -fx-background-radius:8; -fx-border-radius:8; -fx-padding:16;">
+
+                                    <children>
+
+                                        <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Prevoz" />
+
+                                        <Separator />
+
+                                        <RadioButton fx:id="letaloRadio" text="Z letalom">
+                                            <toggleGroup>
+                                                <ToggleGroup fx:id="prevozGroup" />
+                                            </toggleGroup>
+                                        </RadioButton>
+
+                                        <RadioButton fx:id="avtobusRadio" text="Z avtobusom" toggleGroup="$prevozGroup" />
+
+                                        <RadioButton fx:id="koloRadio" text="S kolesom" toggleGroup="$prevozGroup" />
+
+                                        <RadioButton fx:id="vlakRadio" text="Z vlakom" toggleGroup="$prevozGroup" />
+
+                                    </children>
+
+                                </VBox>
+
+                            </children>
+                        </HBox>
+
+                        <!-- SECOND ROW -->
+                        <HBox spacing="16">
+
+                            <children>
+
+                                <!-- ACCOMMODATION -->
+                                <VBox maxWidth="1.7976931348623157E308" spacing="10" style="-fx-background-color:white; -fx-border-color:#D8DDE3; -fx-background-radius:8; -fx-border-radius:8; -fx-padding:16;">
+
+                                    <children>
+
+                                        <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Tip nastanitve" />
+
+                                        <Separator />
+
+                                        <GridPane hgap="30" vgap="10">
+
+                                            <children>
+
+                                                <RadioButton text="Hotelska nastanitev" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                                    <toggleGroup>
+                                                        <ToggleGroup fx:id="nastanitevGroup" />
+                                                    </toggleGroup>
+                                                </RadioButton>
+
+                                                <RadioButton text="Hiša" toggleGroup="$nastanitevGroup" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                                <RadioButton text="Apartma" toggleGroup="$nastanitevGroup" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+                                                <RadioButton text="Glamping šotor" toggleGroup="$nastanitevGroup" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                                <RadioButton text="Mobilna hiška" toggleGroup="$nastanitevGroup" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+
+                                                <RadioButton text="Sam poskrbim" toggleGroup="$nastanitevGroup" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                                            </children>
+                                 <columnConstraints>
+                                    <ColumnConstraints />
+                                    <ColumnConstraints />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
+                                        </GridPane>
+
+                                    </children>
+
+                                    <HBox.hgrow>
+                                        <Priority fx:constant="ALWAYS" />
+                                    </HBox.hgrow>
+
+                                </VBox>
+
+                                <!-- PEOPLE -->
+                                <VBox maxWidth="1.7976931348623157E308" spacing="10" style="-fx-background-color:white; -fx-border-color:#D8DDE3; -fx-background-radius:8; -fx-border-radius:8; -fx-padding:16;">
+
+                                    <children>
+
+                                        <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Število oseb" />
+
+                                        <Separator />
+
+                                        <GridPane hgap="20" vgap="8">
+
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="ALWAYS" />
+                                                <ColumnConstraints hgrow="ALWAYS" />
+                                                <ColumnConstraints hgrow="ALWAYS" />
+                                            </columnConstraints>
+
+                                            <children>
+
+                                                <Label text="Odrasli" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+
+                                                <Label text="Otroci" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                                <Label text="Do 7 let" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+                                                <Spinner fx:id="odrasliSpinner" maxWidth="1.7976931348623157E308" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+                                                <Spinner fx:id="otrociSpinner" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                                <Spinner fx:id="otrociDo7Spinner" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
+                                            </children>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
+                                        </GridPane>
+
+                                    </children>
+
+                                    <HBox.hgrow>
+                                        <Priority fx:constant="ALWAYS" />
+                                    </HBox.hgrow>
+
+                                </VBox>
+
+                            </children>
+                        </HBox>
+
+                        <!-- SPECIAL REQUESTS -->
+                        <VBox spacing="10" style="-fx-background-color:white; -fx-border-color:#D8DDE3; -fx-background-radius:8; -fx-border-radius:8; -fx-padding:16;">
+
+                            <children>
+
+                                <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Posebne zahteve" />
+
+                                <Separator />
+
+                                <GridPane hgap="30" vgap="10">
+
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="ALWAYS" />
+                                        <ColumnConstraints hgrow="ALWAYS" />
+                                        <ColumnConstraints hgrow="ALWAYS" />
+                                        <ColumnConstraints hgrow="ALWAYS" />
+                                    </columnConstraints>
+
+                                    <children>
+
+                                        <CheckBox fx:id="wifiCheck" text="WiFi" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                        <CheckBox fx:id="parkirisceVSenciCheck" text="Parkirišče v senci" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                        <CheckBox fx:id="hladilnikCheck" text="Hladilnik" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                        <CheckBox fx:id="elektrikaCheck" text="Elektrika" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+
+                                        <CheckBox fx:id="klimaCheck" text="Klima" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                        <CheckBox fx:id="posteljninaCheck" text="Posteljnina" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <CheckBox fx:id="blizinaCheck" text="Bližina plaže" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                        <CheckBox fx:id="toplaVodaCheck" text="Topla voda" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+
+                                    </children>
+                           <rowConstraints>
+                              <RowConstraints />
+                              <RowConstraints />
+                           </rowConstraints>
+                                </GridPane>
+
+                            </children>
+                        </VBox>
+
+                        <!-- CUSTOMER -->
+                        <VBox spacing="10" style="-fx-background-color:white; -fx-border-color:#D8DDE3; -fx-background-radius:8; -fx-border-radius:8; -fx-padding:16;">
+
+                            <children>
+
+                                <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Podatki naročnika" />
+
+                                <Separator />
+
+                                <GridPane hgap="20" vgap="12">
+
+                                    <columnConstraints>
+                                        <ColumnConstraints minWidth="130" />
+                                        <ColumnConstraints hgrow="ALWAYS" />
+                                        <ColumnConstraints minWidth="130" />
+                                        <ColumnConstraints hgrow="ALWAYS" />
+                                    </columnConstraints>
+
+                                    <children>
+
+                                        <Label text="Ime" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                        <TextField fx:id="imeField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                        <Label text="Ulica" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                        <TextField fx:id="ulicaField" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+
+                                        <Label text="Priimek" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                        <TextField fx:id="priimekField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                        <Label text="Poštna številka" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                        <TextField fx:id="postnaStevilkaField" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+
+                                        <Label text="Datum rojstva" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                        <DatePicker fx:id="datumRojstvaPicker" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                                        <Label text="Država" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                        <ComboBox fx:id="drzavaNarocnikaCombo" maxWidth="220" minWidth="220" prefWidth="220" promptText="Izberi državo" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+
+                                        <Label text="Kreditna kartica" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                        <TextField fx:id="stevilkaKreditneKarticeField" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+
+                                    </children>
+                           <rowConstraints>
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                           </rowConstraints>
+                                </GridPane>
+
+                            </children>
+                        </VBox>
+
+                        <!-- GUEST DETAILS -->
+                        <VBox spacing="10" style="-fx-background-color:white; -fx-border-color:#D8DDE3; -fx-background-radius:8; -fx-border-radius:8; -fx-padding:16;">
+
+                            <children>
+
+                                <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Podatki vseh gostov" />
+
+                                <Separator />
+
+                                <TextArea fx:id="gostiArea" prefRowCount="5" promptText="Vnesite imena in podatke vseh gostov..." wrapText="true" />
+
+                            </children>
+                        </VBox>
+
+                    </children>
+                </VBox>
+
+            </content>
+        </ScrollPane>
+    </center>
+
+    <!-- BOTTOM -->
+    <bottom>
+        <VBox spacing="10">
+            <children>
+
+                <HBox alignment="CENTER_RIGHT" spacing="12">
+
+                    <children>
+
+                        <Region HBox.hgrow="ALWAYS" />
+
+                        <Button fx:id="ponastaviVnoseButton" onAction="#ponastaviVnose" prefWidth="150" text="↻ Ponastavi vnose" />
+
+                        <Button fx:id="shraniVnosButton" onAction="#shraniVnos" prefWidth="130" text="💾 Shrani vnose" />
+
+                        <Button fx:id="rezervirajButton" onAction="#rezerviraj" prefWidth="130" style="-fx-background-color:#2FA36B; -fx-text-fill:white; -fx-font-weight:bold;" text="✔ Rezerviraj" />
+
+                    </children>
+                </HBox>
+
+                <Label fx:id="statusLabel" style="-fx-text-fill:#555555; -fx-font-size:13px;" text="Pripravljeno." />
+
+            </children>
+
+            <padding>
+                <Insets bottom="20" left="20" right="20" top="16" />
+            </padding>
+        </VBox>
+    </bottom>
+
+</BorderPane>

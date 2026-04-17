@@ -1,0 +1,10 @@
+Država: Hrvaška
+Kraj: hujhk
+Datum odhoda: 2026-04-01
+Datum vrnitve: 2026-04-08
+Ime: lj
+Priimek: asdf
+Poštna številka: 2342
+Odrasli: 3
+Otroci: 1
+Otroci do 7: 0
