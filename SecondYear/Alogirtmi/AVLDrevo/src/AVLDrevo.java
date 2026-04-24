@@ -119,6 +119,35 @@ public class AVLDrevo {
     }
 
 
+    private int sumRecursive(Node node, int bottom, int top){
+        if (node == null) return 0;
+
+        if(node.key < bottom){
+            return sumRecursive(node.right, bottom, top);
+        }
+
+        if(node.key > top){
+            return sumRecursive(node.left, bottom, top);
+        }
+
+        return node.counter * node.key + sumRecursive(node.left, bottom, top) + sumRecursive(node.right, bottom, top);
+    }
+
+
+    private Node kLowestRecursive(Node node, int k, int[] count){
+        if (node == null) return null;
+
+        Node left = kLowestRecursive(node.left, k, count);
+        if (left != null) return left;
+
+        count[0] += node.counter;
+
+        if (count[0] >= k) return node;
+
+        return kLowestRecursive(node.right, k, count);
+    }
+
+
     private Node balance(Node node){
         int b = balanceFactor(node);
 
@@ -190,7 +219,10 @@ public class AVLDrevo {
 
 
     public void premiPregled(){
-        if(root == null) return;
+        if(root == null){
+            System.out.println("empty");
+            return;
+        }
 
         StringBuilder sb = new StringBuilder();
         preorderRecursive(root, sb);
@@ -210,9 +242,8 @@ public class AVLDrevo {
         while (node != null){
 
             if (node.key == key) {
-                sb.append("x");
-                System.out.println(sb.toString());
-                return;
+
+                break;
             }
 
             sb.append(node.key);
@@ -222,9 +253,9 @@ public class AVLDrevo {
             else node = node.right;
         }
 
-        sb.delete(0, sb.length());
-        sb.append("null");
+        sb.append("x");
         System.out.println(sb.toString());
+
     }
 
     public void izbrisi(int key){
@@ -233,24 +264,49 @@ public class AVLDrevo {
     }
 
 
-    public static void main(String[] args) {
-        AVLDrevo d = new AVLDrevo();
+    public void vsotaVMejah(int bottom, int top){
 
-        d.vstavi(10);
-        d.vstavi(20);
-        d.vstavi(30); // RR rotacija
-
-        //d.vstavi(20); // duplikat
-
-        d.vstavi(5);
-        d.vstavi(4);  // LL rotacija
-
-        d.vstavi(15);
-        d.vstavi(25);
-
-        d.izbrisi(20);
-        d.premiPregled();
-        d.najdi(30);
+        int vsota = sumRecursive(root, bottom, top);
+        System.out.println(vsota);
     }
+
+
+    public void ktiNajmanjsi(int k){
+        if (k==0) k = 1;
+
+        int[] count = {0};
+        Node res = kLowestRecursive(root, k, count);
+
+        if (res == null) {
+            System.out.println("x");
+        }
+        else{
+            System.out.println(res.key);
+        }
+    }
+
+
+
+    public void najnizjiSkupniPredhodnik(int a, int b){
+        Node node = root;
+
+        while (node != null){
+
+            if (a < node.key && b < node.key){
+                node = node.left;
+            }
+            else if (a > node.key && b > node.key){
+                node = node.right;
+            }
+            else{
+                System.out.println(node.key);
+                return;
+            }
+        }
+
+        System.out.println("null");
+    }
+
+
 
 }
