@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="0"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.turisticnaagencija.HelloController">
+
+    <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS">
+
+        <Tab closable="false" text="Potniki">
+            <ScrollPane fitToWidth="true">
+                <VBox spacing="12" style="-fx-padding: 15;">
+                    <Label text="Podatki o potnikih" style="-fx-font-weight: bold; -fx-font-size: 16;"/>
+                    <Label text="Najprej vnesite glavnega potnika. Po potrebi dodajte še sopotnike."
+                           style="-fx-text-fill: #666;"/>
+
+                    <VBox fx:id="potnikiContainer" spacing="12"/>
+
+                    <HBox alignment="CENTER_LEFT">
+                        <Button text="+ Dodaj potnika" onAction="#dodajPotnika"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER_RIGHT">
+                        <Button text="Naprej &gt;" onAction="#naprejTab1"/>
+                    </HBox>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+
+        <Tab closable="false" text="Let">
+            <ScrollPane fitToWidth="true">
+                <VBox spacing="10" style="-fx-padding: 15;">
+                    <Label text="Podatki o letu" style="-fx-font-weight: bold; -fx-font-size: 16;"/>
+
+                    <GridPane hgap="10" vgap="8" style="-fx-border-color: #cccccc; -fx-padding: 10;">
+                        <Label text="Kraj odhoda:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <ComboBox fx:id="odhodBox" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Destinacija:" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                        <ComboBox fx:id="destinacijaBox" prefWidth="200" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+                        <Label text="Odhod od:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <DatePicker fx:id="odhodOd" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Odhod do:" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                        <DatePicker fx:id="odhodDo" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+
+                        <Label text="Povratek od:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <DatePicker fx:id="povratekOd" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                        <Label text="Povratek do:" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                        <DatePicker fx:id="povratekDo" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+
+                        <Label text="Razred:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <ComboBox fx:id="razredBox" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                        <Label text="Sedeži:" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                        <ComboBox fx:id="sedezBox" prefWidth="200" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+                    </GridPane>
+
+                    <Label text="Želeni tip leta" style="-fx-font-weight: bold; -fx-font-size: 14;"/>
+
+                    <VBox spacing="8" style="-fx-border-color: #cccccc; -fx-padding: 10;">
+                        <RadioButton fx:id="jutranjiRadio" text="Jutranji let"/>
+                        <RadioButton fx:id="vecerniRadio" text="Večerni let"/>
+                        <RadioButton fx:id="direktenRadio" text="Direkten let"/>
+                    </VBox>
+
+                    <HBox alignment="CENTER_RIGHT" spacing="10">
+                        <Button text="&lt; Nazaj" onAction="#nazajTab2"/>
+                        <Button text="Naprej &gt;" onAction="#naprejTab2"/>
+                    </HBox>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+
+        <Tab closable="false" text="Dodatki">
+            <ScrollPane fitToWidth="true">
+                <VBox spacing="12" style="-fx-padding: 15;">
+                    <Label text="Dodatki za potnike" style="-fx-font-weight: bold; -fx-font-size: 16;"/>
+                    <Label text="Obroki in dodatna prtljaga se prilagodijo številu potnikov."
+                           style="-fx-text-fill: #666;"/>
+
+                    <Label text="Obroki" style="-fx-font-weight: bold; -fx-font-size: 14;"/>
+                    <VBox fx:id="obrokiContainer" spacing="8" style="-fx-border-color: #cccccc; -fx-padding: 10;"/>
+
+                    <Label text="Prtljaga" style="-fx-font-weight: bold; -fx-font-size: 14;"/>
+                    <VBox fx:id="prtljagaContainer" spacing="8" style="-fx-border-color: #cccccc; -fx-padding: 10;"/>
+
+                    <Label text="Rent-a-car" style="-fx-font-weight: bold; -fx-font-size: 14;"/>
+                    <VBox spacing="8" style="-fx-border-color: #cccccc; -fx-padding: 10;">
+                        <CheckBox fx:id="rentacarCheck" text="Rezerviraj rent-a-car" onAction="#toggleRentacar"/>
+
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="Kategorija:"/>
+                            <ComboBox fx:id="kategorijaBox"/>
+                        </HBox>
+
+                        <Label fx:id="modelLabel" text="" style="-fx-text-fill: #666;"/>
+                        <CheckBox fx:id="otroskiSedezCheck" text="Otroški sedež"/>
+                        <Label fx:id="rentInfoLabel" text="" style="-fx-text-fill: #666;"/>
+                    </VBox>
+
+                    <HBox alignment="CENTER_RIGHT" spacing="10">
+                        <Button text="&lt; Nazaj" onAction="#nazajTab3"/>
+                        <Button text="Naprej &gt;" onAction="#naprejTab3"/>
+                    </HBox>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+
+        <Tab closable="false" text="Plačilo">
+            <ScrollPane fitToWidth="true">
+                <VBox spacing="10" style="-fx-padding: 15;">
+                    <Label text="Plačilo" style="-fx-font-weight: bold; -fx-font-size: 16;"/>
+                    <Label text="Vnesite podatke za plačilo letalskih kart." style="-fx-text-fill: #666;"/>
+
+                    <GridPane hgap="10" vgap="8" style="-fx-border-color: #cccccc; -fx-padding: 10;">
+                        <Label text="Vrsta kartice:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <ComboBox fx:id="karticaBox" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Ime na kartici:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <TextField fx:id="imeKarticaField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Številka kartice:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <TextField fx:id="stevilkaKarticaField" promptText="XXXX XXXX XXXX XXXX"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                        <Label text="Veljavnost do:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <TextField fx:id="veljavnostField" promptText="MM/LLLL"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                        <Label text="CVV:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                        <PasswordField fx:id="cvvField" maxWidth="80"
+                                       GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                    </GridPane>
+
+                    <VBox spacing="4" style="-fx-border-color: #cccccc; -fx-padding: 10; -fx-background-color: #f8f8f8;">
+                        <Label text="Pregled cene:" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="cenaKartLabel" text="Letalske karte: -"/>
+                        <Label fx:id="cenaAvtoLabel" text="Rent-a-car: -"/>
+                        <Separator/>
+                        <Label fx:id="skupajDanesLabel" text="Skupaj danes: -" style="-fx-font-weight: bold;"/>
+                    </VBox>
+
+                    <HBox alignment="CENTER_RIGHT" spacing="10">
+                        <Button text="&lt; Nazaj" onAction="#nazajTab4"/>
+                        <Button text="Plačaj" onAction="#placaj"
+                                style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+                    </HBox>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+
+        <Tab closable="false" text="Povzetek">
+            <ScrollPane fitToWidth="true">
+                <VBox spacing="10" style="-fx-padding: 15;">
+                    <Label text="Povzetek rezervacije" style="-fx-font-weight: bold; -fx-font-size: 16;"/>
+
+                    <Label text="Potniki:" style="-fx-font-weight: bold;"/>
+                    <TextArea fx:id="povzetekPotnikiArea" editable="false" prefRowCount="6" wrapText="true"/>
+
+                    <Label text="Let:" style="-fx-font-weight: bold;"/>
+                    <GridPane hgap="20" vgap="6" style="-fx-border-color: #cccccc; -fx-padding: 10;">
+                        <Label text="Relacija:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Label fx:id="povzetekLet" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Datumi:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Label fx:id="povzetekDatum" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Razred:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label fx:id="povzetekRazred" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                        <Label text="Sedeži:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <Label fx:id="povzetekSedezi" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    </GridPane>
+
+                    <Label text="Dodatki:" style="-fx-font-weight: bold;"/>
+                    <GridPane hgap="20" vgap="6" style="-fx-border-color: #cccccc; -fx-padding: 10;">
+                        <Label text="Obroki:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Label fx:id="povzetekObroki" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Prtljaga:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Label fx:id="povzetekPrtljaga" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Rent-a-car:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label fx:id="povzetekAvto" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    </GridPane>
+
+                    <Label text="Plačilo:" style="-fx-font-weight: bold;"/>
+                    <GridPane hgap="20" vgap="6" style="-fx-border-color: #cccccc; -fx-padding: 10;">
+                        <Label text="Cena kart:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Label fx:id="povzetekCenaKart" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Cena rent-a-car:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Label fx:id="povzetekCenaAvto" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Kartica:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label fx:id="povzetekKartica" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    </GridPane>
+
+                    <Label fx:id="emailPoslanLabel" text="" style="-fx-text-fill: #666;"/>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+
+    </TabPane>
+</VBox>

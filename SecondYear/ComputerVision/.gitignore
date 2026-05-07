@@ -1,4 +1,0 @@
-# Ignore all XML files in the Annotations directory
-data/VOCdevkit/VOC2012/Annotations/*.xml
-
-SecondYear/ComputerVision/Weeks 2 & 3/data/VOCdevkit/
