@@ -1,0 +1,99 @@
+
+# ==========================
+# Python Virtual Environments
+# ==========================
+.venv/
+venv/
+env/
+ENV/
+virtualenv/
+
+# ==========================
+# Python Cache
+# ==========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
+
+# ==========================
+# Jupyter Notebooks
+# ==========================
+.ipynb_checkpoints/
+.jupyter/
+.ipython/
+.profile_default/
+
+# ==========================
+# IDE / Editors
+# ==========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ==========================
+# macOS
+# ==========================
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ==========================
+# Environment / Secrets
+# ==========================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ==========================
+# Python Build Files
+# ==========================
+build/
+dist/
+*.egg-info/
+.eggs/
+wheels/
+pip-wheel-metadata/
+
+# ==========================
+# Testing / Coverage
+# ==========================
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+
+# ==========================
+# Logs / Temporary Files
+# ==========================
+*.log
+*.tmp
+*.temp
+*.bak
+tmp/
+temp/
+
+# ==========================
+# Local Jupyter Kernel Files
+# ==========================
+*.pid
+*.seed
+
+# ==========================
+# Keep Dependencies Tracked
+# ==========================
+# requirements.txt should be committed!
+# pyproject.toml should be committed!
+# uv.lock should be committed!

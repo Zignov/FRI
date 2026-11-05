@@ -1,7 +1,0 @@
-opencv-python
-urllib3
-matplotlib
-numpy
-Pillow
-torch
-torchvision
