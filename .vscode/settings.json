@@ -10,5 +10,6 @@
     "python.testing.unittestEnabled": true,
     "python.testing.pytestArgs": [
         "FirstYear"
-    ]
+    ],
+    "cmake.sourceDirectory": "D:/Šola/FRI/SecondYear"
 }

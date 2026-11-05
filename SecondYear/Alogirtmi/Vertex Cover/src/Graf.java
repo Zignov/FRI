@@ -98,6 +98,7 @@ public class Graf{
         return velikost;
     }
 
+
     public void pozresni(){
     }
 }
