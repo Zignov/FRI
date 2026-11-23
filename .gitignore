@@ -106,3 +106,6 @@ SecondYear/ComputerVision/cv-env/
 SecondYear/ComputerVision/models/
 SecondYear/ComputerVision/tf-env/
 SecondYear/ComputerVision/yolo_env/
+# API keys / scratch
+**/models.json
+ThirdYear/Robotics/RRZ_vaja2_material/x.png
